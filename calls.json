@@ -1,0 +1,23 @@
+{
+  "product": "Vero Compass",
+  "description": "Public, append-only, real-time log of every allocation call. Owned infrastructure.",
+  "tracked_config": "Vero Compass v1.x (locked live)",
+  "log_inception": "2026-08-02",
+  "honesty": {
+    "live_vs_backtest": "This log is the LIVE forward record from inception. Backtest is separately verifiable on the TradingView indicator.",
+    "pool": "The coin pool is a disclosed input, not a claimed edge. Curated-pool backtests are survivorship-biased and are never a performance headline. The forward log is the proof.",
+    "append_only": "Never back-dated, never edited. A wrong call stays."
+  },
+  "calls": [
+    {
+      "n": 1,
+      "state": "risk-off",
+      "allocation": { "CASH": 100 },
+      "logged": "2026-08-02",
+      "effective_since": "2026-06-01",
+      "effective_since_note": "Verifiable on the indicator backtest; not a live-tracked claim. Live forward record starts at inception.",
+      "reason": "BTC below its 120-day trend filter — system holds no crypto, sits in cash.",
+      "result_since_prior": null
+    }
+  ]
+}

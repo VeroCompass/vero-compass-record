@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vero Compass — Live Track Record</title>
+<meta name="description" content="The public, timestamped, append-only record of every Vero Compass allocation call. Owned infrastructure — the forward log is the proof.">
+<style>
+  :root{
+    --bg:#0f1216; --card:#171b21; --line:#262c34; --tx:#e7ebf0; --mut:#93a0ad; --acc:#4bb3a7; --warn:#d9a441;
+    --on:#2fa06a; --off:#7c8794;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f7f9; --card:#ffffff; --line:#e5e9ee; --tx:#171b21; --mut:#5c6773; --acc:#1f8f83; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 80px}
+  header h1{font-size:30px;margin:0 0 6px;letter-spacing:-.3px}
+  header .sub{color:var(--mut);font-size:16px;margin:0 0 8px}
+  .pill{display:inline-block;font-size:12px;padding:2px 9px;border:1px solid var(--line);border-radius:999px;color:var(--mut)}
+  section{margin:34px 0}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:0 0 12px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .now{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+  .now .state{font-size:22px;font-weight:700}
+  .now .meta{color:var(--mut);font-size:14px}
+  p{margin:0 0 12px}
+  .lead{font-size:18px}
+  ul{margin:0;padding-left:20px} li{margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+  .tag{font-size:12px;padding:1px 8px;border-radius:999px;border:1px solid var(--line)}
+  .tag.off{color:var(--off)} .tag.on{color:var(--on);border-color:var(--on)}
+  a{color:var(--acc)}
+  .btn{display:inline-block;background:var(--acc);color:#04120f;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;border:0;cursor:pointer;font-size:15px}
+  form.signup{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  form.signup input{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--tx);font-size:15px}
+  .foot{color:var(--mut);font-size:13px;border-top:1px solid var(--line);margin-top:40px;padding-top:18px}
+  .warn{color:var(--warn)}
+  code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Vero Compass</h1>
+    <p class="sub">A rules-based crypto allocation system — and its record, kept in the open.</p>
+    <span class="pill">Public · append-only · timestamped by GitHub</span>
+  </header>
+
+  <section>
+    <p class="lead">Vero Compass rotates a pool of major crypto assets by momentum, sizes positions by
+    risk-parity, and steps aside to cash when Bitcoin breaks its long-term trend. <strong>The rules are the
+    product; the coin pool is a disclosed input you can change.</strong></p>
+    <p>Credibility doesn't come from a screenshot. It comes from a record that accumulates
+    <em>continuously, in public, in real time</em>, on infrastructure we own — witnessed forming, not posted
+    after the fact. This page is that record.</p>
+  </section>
+
+  <section>
+    <h2>Right now</h2>
+    <div class="card now" id="now"><span class="meta">Loading current state…</span></div>
+  </section>
+
+  <section>
+    <h2>The live log</h2>
+    <div class="card" style="overflow-x:auto">
+      <table id="log"><thead><tr><th>#</th><th>Logged</th><th>State</th><th>Allocation</th><th>Result since prior</th></tr></thead>
+      <tbody><tr><td colspan="5" style="color:var(--mut)">Loading…</td></tr></tbody></table>
+    </div>
+    <p style="font-size:13px;color:var(--mut);margin-top:10px">Full history &amp; server-side push times:
+    see the <a href="LOG.md">log</a> and this repository's commit history.</p>
+  </section>
+
+  <section>
+    <h2>How to verify it yourself</h2>
+    <ul>
+      <li><strong>Backtest</strong> — load the Vero Compass indicator on TradingView and read its historical
+      calls directly. No trust in us required. <a href="#" id="tvlink">▶ Open the indicator on TradingView</a>
+      <span class="warn">(replace with the published indicator link)</span></li>
+      <li><strong>Live</strong> — this log <em>is</em> the forward record. Every new call is one commit,
+      pushed the moment it happens; GitHub records the time.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Get every call by email</h2>
+    <div class="card">
+      <p>Social accounts can vanish. An email list can't. Get each allocation call the moment it's logged.</p>
+      <!-- TIER 3: connect this form to your own list service (Buttondown / ConvertKit / Formspree / Substack).
+           Set action= to your form endpoint and method=post. Until then it does nothing. -->
+      <form class="signup" action="REPLACE_WITH_YOUR_EMAIL_FORM_ENDPOINT" method="post" onsubmit="return notWired(event)">
+        <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
+        <button class="btn" type="submit">Notify me</button>
+      </form>
+      <p style="font-size:12px;color:var(--mut);margin:8px 0 0">No spam — only allocation calls. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <div class="foot">
+    <p><strong>Backtest vs live:</strong> historical performance shown by the indicator is a backtest and is
+    independently verifiable there; this log is the live forward record from its inception date.
+    <strong>The pool is a disclosed input, not a claimed edge</strong> — a backtest over a hand-picked list
+    of coins that survived is survivorship-biased and is never presented here as a performance headline.
+    Nothing here is back-dated or edited; a wrong call stays in the record.</p>
+    <p><strong>Not financial advice.</strong> Vero Compass is a research system. Crypto is volatile; only
+    risk what you can afford to lose, and do your own diligence.</p>
+  </div>
+</div>
+
+<script>
+function notWired(e){ e.preventDefault(); alert("Email capture isn't connected yet — set the form action to your list service."); return false; }
+function fmtAlloc(a){
+  if(!a) return "—";
+  var ks = Object.keys(a);
+  if(ks.length===1 && ks[0]==="CASH") return "100% cash";
+  return ks.map(function(k){return k+" "+a[k]+"%";}).join(" · ");
+}
+fetch("calls.json").then(function(r){return r.json();}).then(function(d){
+  var calls = (d.calls||[]).slice();
+  var last = calls[calls.length-1];
+  var now = document.getElementById("now");
+  if(last){
+    var off = last.state==="risk-off";
+    now.innerHTML = '<span class="dot" style="background:'+(off?"var(--off)":"var(--on)")+'"></span>'+
+      '<span class="state">'+fmtAlloc(last.allocation)+'</span>'+
+      '<span class="meta">'+(off?"risk-off":"risk-on")+(last.effective_since?(" · in effect since "+last.effective_since):"")+
+      (last.reason?(" — "+last.reason):"")+'</span>';
+  } else { now.innerHTML='<span class="meta">No calls logged yet.</span>'; }
+  var tb = document.querySelector("#log tbody"); tb.innerHTML="";
+  calls.slice().reverse().forEach(function(c){
+    var tr=document.createElement("tr");
+    var st = c.state==="risk-off" ? '<span class="tag off">risk-off</span>' : '<span class="tag on">risk-on</span>';
+    tr.innerHTML = "<td>"+c.n+"</td><td>"+(c.logged||"")+"</td><td>"+st+"</td><td>"+fmtAlloc(c.allocation)+
+      "</td><td>"+(c.result_since_prior==null?"—":c.result_since_prior)+"</td>";
+    tb.appendChild(tr);
+  });
+  if(d.tracked_config){ /* could show tracked config */ }
+}).catch(function(){
+  document.getElementById("now").innerHTML='<span class="meta">Could not load calls.json.</span>';
+});
+</script>
+</body>
+</html>

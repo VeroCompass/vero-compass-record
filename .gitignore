@@ -1,0 +1,5 @@
+# nothing sensitive lives here — this repo is public by design. keep it tidy.
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
