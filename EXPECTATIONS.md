@@ -30,6 +30,13 @@ its long-term trend. **The coin pool is a disclosed input you can change; the ru
 - The system's job is to be **materially shallower than holding**: in five separate historical crashes it
   cut losses by 40–60 percentage points versus buy-and-hold. **That gap — not the absolute number — is the
   thing to judge.**
+- **This is the claim with the strongest evidence behind it, and it has now been tested on two independent
+  eras.** The protective rule was re-tested on Bitcoin data from **2011–2017** — a completely separate cycle
+  containing an 85% collapse — and it cut the drawdown from 84.9% to 70.3% there, at a ~10% cost in return.
+  Combined with the 2018–2026 evidence, the protection holds across two cycles years apart. *(An earlier
+  attempt on a 2014–2017 window showed no benefit — but that window contained no major crash for the rule
+  to catch, which is itself consistent with how the system is described: it protects in crashes and costs
+  you in sustained bull markets.)*
 
 **Time underwater — expect this to be the hardest part.**
 - Expect to spend **most of your time below your best-ever balance.** In the backtest this was ~96% of days.
@@ -61,6 +68,14 @@ performing as described** if, over a meaningful live sample (2+ years):
   This is not a universal market edge.
 - **We cannot yet distinguish "the edge has decayed" from "no alt-season has occurred since 2021."** Both
   predict the same recent data. Only this forward record will separate them.
+- **The specific trend-filter setting is not a magic number.** Testing across three separate market cycles,
+  a different lookback length was "best" in each one. On crash-heavy periods the choice barely mattered —
+  the *mechanism* works across a wide range of settings even though no single setting is special. We use a
+  fixed, disclosed value and do not tune it to history.
+- **The coin-rotation part of the system is less proven than the protection part.** Its historical advantage
+  was concentrated in the 2021 alt-season; a much simpler "hold Bitcoin, step aside when it breaks trend"
+  rule was competitive in other periods. We think the rotation adds value, but that is the part this live
+  record most needs to demonstrate.
 - **Capacity is limited** — comfortable to a few hundred thousand dollars, bounded by the least liquid coin
   the system might hold.
 - **The historical figures are backtests.** They assume prompt execution and realistic but modelled costs.
