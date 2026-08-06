@@ -5,6 +5,12 @@ Vero Compass system. It is owned infrastructure — not a social account, not re
 grows in public, one commit at a time, cannot be back-fabricated: GitHub stamps the server-side time of
 every push, and the full history is open for anyone to audit.
 
+## Pre-registered expectations
+**[`EXPECTATIONS.md`](EXPECTATIONS.md)** — written *before* this log contains any live call. It states what
+the record should look like if the system works as described, **and what would falsify that claim**. It is
+committed here so it is timestamped ahead of the results it will be judged against. Read it before reading
+the log; judge the live record against those bands, not against headline backtest figures.
+
 ## How to read the log
 - **[`LOG.md`](LOG.md)** — the human-readable, chronological log. Newest entries at the bottom.
 - **[`calls.json`](calls.json)** — the same log, machine-readable (what the site renders).
