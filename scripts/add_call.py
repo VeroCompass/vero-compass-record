@@ -33,6 +33,14 @@ LOG = os.path.join(ROOT, 'LOG.md')
 # append-only promise — and (b) writes invalid-UTF-8 bytes into LOG.md that GitHub renders as mojibake.
 ENC = 'utf-8'
 
+# The public record is the BRAND's, never an individual's. Forcing the identity on the commit itself means
+# it cannot depend on whatever git config happens to exist on the machine — which would either fail
+# ("Author identity unknown" on a fresh clone) or, worse, silently stamp a personal email onto a public
+# brand commit.
+AUTHOR_NAME = 'Vero Compass'
+AUTHOR_EMAIL = 'vero-compass@users.noreply.github.com'
+IDENT = ['-c', 'user.name=' + AUTHOR_NAME, '-c', 'user.email=' + AUTHOR_EMAIL]
+
 
 def run(cmd, **kw):
     return subprocess.run(cmd, cwd=ROOT, **kw)
@@ -157,7 +165,10 @@ def main():
                     % (os.path.basename(p), e))
 
     run(['git', 'add', 'calls.json', 'LOG.md'], check=True)
-    run(['git', 'commit', '-m', 'call #%d: %s — %s' % (n, args.state, alloc_str(alloc))], check=True)
+    c = run(['git'] + IDENT + ['commit', '-m', 'call #%d: %s — %s' % (n, args.state, alloc_str(alloc))])
+    if c.returncode != 0:
+        die('commit failed (git exit %d). Nothing was published; the edited files are still in the '
+            'working tree. Inspect with "git status" before re-running.' % c.returncode)
     if args.no_push:
         print('Logged call #%d and committed locally. NOT PUSHED — run "git push" to publish.' % n)
         return
