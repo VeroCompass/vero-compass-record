@@ -11,7 +11,7 @@ USAGE (run from the repo root):
 
   # risk-on (holding coins; weights are the rounded 5% allocations):
   python scripts/add_call.py --state risk-on --alloc "BTC:30,ETH:25,SOL:20,LINK:15,GOLD:10" \
-      --reason "Trend up; top-4 by momentum + gold hedge" --result "+8.1% since prior entry"
+      --reason "Trend up; strongest trending coins by momentum + gold hedge" --result "+8.1% since prior entry"
 
 REAL-TIME / AUTOMATED: wire this to the TradingView alert for the tracked indicator so the push happens at
 the moment of the call (e.g. alert -> webhook -> a tiny handler on a box you own -> runs this script), so

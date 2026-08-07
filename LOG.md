@@ -16,7 +16,7 @@ verifiable on the Vero Compass indicator's own backtest; the live forward record
 - **In effect since:** 2026-06-01 *(per the indicator; verifiable on its backtest — not a live-tracked claim)*
 - **Why:** Bitcoin is below its 120-day trend filter, so the system holds no crypto and sits in cash.
 - **Result since prior entry:** — *(first entry)*
-- **Tracked config:** Vero Compass v1.x (locked live).
+- **Tracked config:** Vero Compass v1.4 — 12-coin pool, up to 6 held, inverse-volatility sizing, Bitcoin-trend crash filter to cash. (Numerically identical to v1.3; v1.4 adds separate exit/entry alerts.)
 
 *The system is currently in cash, so no live trades are being missed — the timeline is anchored now, and
 the first live allocation call will be appended here the moment the system leaves cash.*

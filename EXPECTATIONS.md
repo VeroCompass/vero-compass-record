@@ -12,8 +12,25 @@ which later collapsed, such as LUNA), documented in the research record. **Backt
 
 ## What this system is
 A rules-based crypto allocation system whose defensible property is **drawdown control**. It ranks a pool of
-coins by momentum, holds up to four, sizes them by risk parity, and moves fully to cash when Bitcoin breaks
-its long-term trend. **The coin pool is a disclosed input you can change; the rules are the product.**
+major coins by momentum, holds the strongest that are trending, sizes them by inverse volatility (calmer
+coins get larger positions), and moves fully to cash when Bitcoin breaks its long-term trend.
+**The coin pool is a disclosed input you can change; the rules are the product.**
+
+**Tracked configuration:** Vero Compass v1.4 — a 12-coin pool, up to 6 held, inverse-volatility sizing,
+periodic re-ranking with immediate exits, and a Bitcoin-trend crash filter to cash. Numerically identical to
+v1.3; v1.4 adds separate exit and entry alerts. Any change of the tracked engine will be announced in the
+log itself.
+
+## Where these expectation bands come from — read this before the numbers
+The bands below are deliberately **more conservative than the tracked configuration's own backtest**, and
+that is intentional. The shipped coin list was chosen with hindsight, which flatters its historical figures.
+The bands here instead come from **survivorship-free testing of this family of rules** — a universe that
+includes coins which later collapsed — measured on a close variant of the shipped configuration (a more
+concentrated, risk-parity-weighted version). They are therefore an approximation, not a like-for-like
+forecast of the tracked engine.
+
+We publish the conservative view on purpose. If the live record lands *above* these bands, good. If it
+lands below them, that is a genuine problem and this document exists so we cannot pretend otherwise.
 
 ## What we expect the live record to show, if the system works as characterised
 
