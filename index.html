@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vero Compass — Live Track Record</title>
-<meta name="description" content="The public, timestamped, append-only record of every Vero Compass allocation call. Owned infrastructure — the forward log is the proof.">
+<title>Vero Compass — crash-aware crypto rotation, and its live record</title>
+<meta name="description" content="A rules-based crypto allocation system built for surviving crashes. Honest numbers, published drawdowns, and a public append-only record of every live call.">
 <style>
   :root{
     --bg:#0f1216; --card:#171b21; --line:#262c34; --tx:#e7ebf0; --mut:#93a0ad; --acc:#4bb3a7; --warn:#d9a441;
@@ -21,12 +21,14 @@
   .pill{display:inline-block;font-size:12px;padding:2px 9px;border:1px solid var(--line);border-radius:999px;color:var(--mut)}
   section{margin:34px 0}
   h2{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:0 0 12px;font-weight:600}
+  h3{font-size:17px;margin:22px 0 4px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
   .now{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
   .now .state{font-size:22px;font-weight:700}
   .now .meta{color:var(--mut);font-size:14px}
   p{margin:0 0 12px}
+  .hero{font-size:27px;line-height:1.3;font-weight:700;letter-spacing:-.3px;margin:0 0 10px}
   .lead{font-size:18px}
   ul{margin:0;padding-left:20px} li{margin:6px 0}
   table{width:100%;border-collapse:collapse;font-size:14px}
@@ -41,6 +43,13 @@
   .foot{color:var(--mut);font-size:13px;border-top:1px solid var(--line);margin-top:40px;padding-top:18px}
   .warn{color:var(--warn)}
   code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:13px}
+  .stats{display:flex;gap:14px;flex-wrap:wrap}
+  .stat{flex:1;min-width:190px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .stat .n{font-size:30px;font-weight:700;letter-spacing:-.5px;display:block}
+  .stat .l{color:var(--mut);font-size:13px;line-height:1.45;display:block;margin-top:2px}
+  .rule{border-left:3px solid var(--acc);padding-left:14px;margin:16px 0}
+  .crash{font-size:14px;color:var(--mut);margin:4px 0}
+  .crash b{color:var(--tx)}
 </style>
 </head>
 <body>
@@ -52,12 +61,24 @@
   </header>
 
   <section>
-    <p class="lead">Vero Compass rotates a pool of major crypto assets by momentum, sizes positions by
-    inverse volatility, and steps aside to cash when Bitcoin breaks its long-term trend. <strong>The rules are
-    the product; the coin pool is a disclosed input you can change.</strong></p>
-    <p>Credibility doesn't come from a screenshot. It comes from a record that accumulates
-    <em>continuously, in public, in real time</em>, on infrastructure we own — witnessed forming, not posted
-    after the fact. This page is that record.</p>
+    <p class="hero">Crypto, without the 80% wipeout.</p>
+    <p class="lead">It holds the strongest coins while the market is healthy, and steps aside into cash when
+    Bitcoin turns. You are not trying to be a genius. You are trying to still be here in two years.</p>
+    <p>The system ranks a pool of major crypto assets by relative strength, sizes positions by inverse
+    volatility so one violent alt can't dominate the book, and goes fully defensive when Bitcoin breaks its
+    long-term trend. <strong>The rules are the product; the coin pool is a disclosed input you can
+    change.</strong></p>
+  </section>
+
+  <section>
+    <h2>What it actually does for you</h2>
+    <div class="stats">
+      <div class="stat"><span class="n">~40%</span><span class="l">worst drawdown in the tested decade, against <b>~83%</b> for Bitcoin and the average coin alike</span></div>
+      <div class="stat"><span class="n">5 of 5</span><span class="l">major crashes sat out in the tested period</span></div>
+      <div class="stat"><span class="n">2 eras</span><span class="l">the protective rule at its core also held up on 2011–2017 data it was never designed against</span></div>
+    </div>
+    <p style="margin-top:14px" class="crash"><b>2018:</b> made +26% while Bitcoin crashed −73% &nbsp;·&nbsp;
+    <b>2022:</b> −1% while Bitcoin crashed −64% &nbsp;·&nbsp; <b>2025:</b> made +58% while Bitcoin chopped to −6%</p>
   </section>
 
   <section>
@@ -66,7 +87,50 @@
   </section>
 
   <section>
-    <h2>The live log</h2>
+    <h2>The honest part</h2>
+    <div class="card">
+      <p><em>Vero means true. So here is the whole truth, including the parts that cost me customers.</em></p>
+
+      <h3>One year did a lot of the work.</h3>
+      <p>2021 alone produced about <strong>half</strong> of everything the backtest made. Any multi-year
+      crypto number deserves the same question: which single year did it come from?</p>
+
+      <h3>The coin list was chosen with hindsight, and that flatters the record.</h3>
+      <p>This is the most important sentence on the page. The twelve coins were picked knowing which ones
+      survived. Testing the same rules on a survivorship-free universe — coins as they actually ranked at the
+      time, including the ones that later went to zero — returns materially less. <strong>Plan around the
+      rules and the protection, not around the historical multiple.</strong> The live record below is the
+      honest test, and it is running now.</p>
+
+      <h3>It protects. It does not make you immune.</h3>
+      <p>Its worst drop in the tested decade was about <strong>40%</strong>. When the core protective rule was
+      run on the far more brutal 2011–2017 era, it still took roughly <strong>70%</strong> while Bitcoin took
+      <strong>85%</strong>. Real protection, in a genuinely violent market. Not a shield.</p>
+
+      <h3>Most of the time you will be underwater.</h3>
+      <p><strong>94%</strong> of days sit below the best balance the system has ever reached. The longest flat
+      stretch was about <strong>17 months</strong>, and roughly <strong>1 in 7</strong> one-year starting
+      points ended below where they began. This is normal for a system like this, and it is exactly where most
+      people quit.</p>
+
+      <div class="rule">
+        <p style="margin:0"><strong>One line in the sand.</strong> If a 40% drop or 17 flat months would make
+        you quit, this is not for you. I would rather say that now than take your money and lose you in
+        month 14.</p>
+      </div>
+
+      <p style="font-size:13px;color:var(--mut);margin:14px 0 0">Written down in advance and timestamped in
+      this repository: <a href="EXPECTATIONS.md">what to expect, and what would prove this system
+      <em>isn't</em> working</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>The live record</h2>
+    <p>Credibility doesn't come from a screenshot. It comes from a record that accumulates
+    <em>continuously, in public, in real time</em>, on infrastructure I own — witnessed forming, not posted
+    after the fact. Every call is one commit; GitHub stamps the time. Nothing here is back-dated or edited,
+    and a wrong call stays in the record permanently.</p>
     <div class="card" style="overflow-x:auto">
       <table id="log"><thead><tr><th>#</th><th>Logged</th><th>State</th><th>Allocation</th><th>Result since prior</th></tr></thead>
       <tbody><tr><td colspan="5" style="color:var(--mut)">Loading…</td></tr></tbody></table>
@@ -76,37 +140,28 @@
   </section>
 
   <section>
-    <h2>What to expect — before you look at any number</h2>
+    <h2>How to run it</h2>
     <div class="card">
-      <p>These are written down <a href="EXPECTATIONS.md"><strong>in advance</strong></a>, timestamped in
-      this repository, so this record can be judged against them rather than explained after the fact.</p>
+      <p>Add the indicator to a daily chart and turn on <strong>both</strong> alerts.</p>
       <ul>
-        <li><strong>Returns are modest most years.</strong> Expect roughly <strong>10% a year</strong> in
-        ordinary conditions, and expect <strong>about one year in four to end lower than it started</strong>.
-        The large historical figures came overwhelmingly from a single exceptional year (2021) and should
-        not be assumed to repeat.</li>
-        <li><strong>Drawdowns are deep.</strong> Expect <strong>40–55%</strong>. The claim to judge is the
-        <em>gap versus simply holding</em> — historically 40–60 points shallower — not the absolute number.</li>
-        <li><strong>You will spend most of your time below your best-ever balance</strong> — sometimes for
-        <strong>a year or more</strong> (worst historical stretch: about 23 months). This is normal for this
-        kind of system, and it is where most people quit.</li>
-        <li><strong>Act on EXIT signals the same day.</strong> Being a couple of days late on exits removed
-        roughly 40% of risk-adjusted performance in testing — the protection only works if you actually get
-        out. Buy signals are not urgent; being a day or two late on those costs essentially nothing.</li>
+        <li><strong>Act on an EXIT alert the same day.</strong> This is the one that matters — being two days
+        late on exits destroyed a large share of the system's risk-adjusted performance in testing, because
+        the protection only works if you actually get out.</li>
+        <li><strong>ENTRY alerts are relaxed.</strong> Being a day or two late costs essentially nothing.</li>
       </ul>
-      <p style="font-size:13px;color:var(--mut);margin:0">Full detail, including
-      <a href="EXPECTATIONS.md">what would prove this system <em>isn't</em> working</a>.</p>
+      <p style="margin:12px 0 0"><strong>Getting out on time is the edge. Getting in is not urgent.</strong>
+      That asymmetry is the single most important thing to know about running this.</p>
     </div>
   </section>
 
   <section>
     <h2>How to verify it yourself</h2>
     <ul>
-      <li><strong>Backtest</strong> — load the Vero Compass indicator on TradingView and read its historical
-      calls directly. No trust in us required. <span class="meta" style="color:var(--mut)">(Indicator link
-      published shortly.)</span></li>
-      <li><strong>Live</strong> — this log <em>is</em> the forward record. Every new call is one commit,
-      pushed the moment it happens; GitHub records the time.</li>
+      <li><strong>The backtest</strong> — load the Vero Compass indicator on TradingView and read its
+      historical calls and figures directly, computed on your own chart from your own data feed. No trust in
+      me required. <span style="color:var(--mut)">(Indicator link published shortly.)</span></li>
+      <li><strong>The live record</strong> — the log above <em>is</em> the forward record. Every call is
+      pushed the moment it happens and timestamped by GitHub.</li>
     </ul>
   </section>
 
@@ -115,7 +170,7 @@
     <div class="card">
       <p>Social accounts can vanish. An email list can't. Get each allocation call the moment it's logged.</p>
       <!-- TIER 3: connect this form to your own list service (Buttondown / ConvertKit / Formspree / Substack).
-           Set action= to your form endpoint and method=post. Until then it does nothing. -->
+           Set action= to your form endpoint and method=post, then remove the onsubmit guard. -->
       <form class="signup" action="REPLACE_WITH_YOUR_EMAIL_FORM_ENDPOINT" method="post" onsubmit="return notWired(event)">
         <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
         <button class="btn" type="submit">Notify me</button>
@@ -129,9 +184,11 @@
     independently verifiable there; this log is the live forward record from its inception date.
     <strong>The pool is a disclosed input, not a claimed edge</strong> — a backtest over a hand-picked list
     of coins that survived is survivorship-biased and is never presented here as a performance headline.
-    Nothing here is back-dated or edited; a wrong call stays in the record.</p>
-    <p><strong>Not financial advice.</strong> Vero Compass is a research system. Crypto is volatile; only
-    risk what you can afford to lose, and do your own diligence.</p>
+    Nothing here is back-dated or edited; a wrong call stays in the record. Your own figures may differ
+    slightly by exchange feed.</p>
+    <p><strong>Not financial advice.</strong> Vero Compass is a research tool, not a promise of returns, and
+    I never touch your money. Crypto is volatile; only risk what you can afford to lose, and do your own
+    diligence.</p>
   </div>
 </div>
 
@@ -162,7 +219,6 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
       "</td><td>"+(c.result_since_prior==null?"—":c.result_since_prior)+"</td>";
     tb.appendChild(tr);
   });
-  if(d.tracked_config){ /* could show tracked config */ }
 }).catch(function(){
   document.getElementById("now").innerHTML='<span class="meta">Could not load calls.json.</span>';
 });
