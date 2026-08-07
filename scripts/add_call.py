@@ -23,6 +23,8 @@ REAL-TIME / AUTOMATED: wire this to the TradingView alert for the tracked indica
 the moment of the call. Also send the same entry to your email list (see the EMAIL hook at the bottom).
 """
 import argparse, json, os, subprocess, sys, datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import prices, perf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CALLS = os.path.join(ROOT, 'calls.json')
@@ -101,7 +103,8 @@ def main():
     ap.add_argument('--state', required=True, choices=['risk-on', 'risk-off'])
     ap.add_argument('--alloc', required=True, help='"cash" or "BTC:30,ETH:25,..."')
     ap.add_argument('--reason', default='')
-    ap.add_argument('--result', default='', help='result since prior entry, e.g. "+8.1%"')
+    ap.add_argument('--result', default='', help='OVERRIDE the computed result. Using this marks the '
+                    'entry as manually asserted rather than measured — avoid unless the computation is wrong.')
     ap.add_argument('--effective-since', default='', help='date the indicator flipped, if not today')
     ap.add_argument('--no-push', action='store_true', help='commit but do not push')
     ap.add_argument('--dry-run', action='store_true', help='show what would be written; change nothing')
@@ -116,8 +119,42 @@ def main():
 
     n = (data['calls'][-1]['n'] + 1) if data['calls'] else 1
     alloc = parse_alloc(args.alloc)
+    this_date = args.effective_since or today
+
+    # --- the result is MEASURED from real prices, not typed in ---
+    # Whatever the previous call put us into, priced from the day it took effect to the day this call
+    # replaces it. If it cannot be priced, we stop — a period that cannot be measured must never quietly
+    # become "0%".
+    result_txt, basis, detail = None, None, None
+    if data['calls']:
+        prev = data['calls'][-1]
+        inception = data.get('log_inception')
+        start = prev.get('effective_since') or prev.get('logged')
+        if inception and start < inception:
+            start = inception          # we do not claim live performance from before the record existed
+        if args.result:
+            result_txt, basis = args.result, 'asserted'
+            print('NOTE: --result given, so this entry is marked ASSERTED, not measured.', file=sys.stderr)
+        else:
+            try:
+                r, detail = perf.period_return(prev.get('allocation', {}), start, this_date,
+                                               prices.price_on_or_after)
+                result_txt, basis = perf.fmt_pct(r), 'computed'
+                print('Computed result for the period %s -> %s: %s' % (start, this_date, result_txt))
+            except prices.PriceError as e:
+                die('could not price the previous allocation (%s).\nNothing was written. Retry when the '
+                    'data source is reachable, or pass --result "<x%%>" to record it as an ASSERTED '
+                    'figure — which the log will label as such.' % e)
+
     entry = {'n': n, 'state': args.state, 'allocation': alloc, 'logged': today,
-             'reason': args.reason, 'result_since_prior': args.result or None}
+             'reason': args.reason, 'result_since_prior': result_txt}
+    if basis:
+        entry['result_basis'] = basis
+        if basis == 'computed':
+            entry['result_period'] = {'from': start, 'to': this_date,
+                                      'allocation_held': prev.get('allocation', {}),
+                                      'method': 'daily opens, net of 0.1%/side fee + per-coin spread',
+                                      'detail': detail}
     if args.effective_since:
         entry['effective_since'] = args.effective_since
 
@@ -130,7 +167,15 @@ def main():
         md.append('- **In effect since:** %s\n' % args.effective_since)
     if args.reason:
         md.append('- **Why:** %s\n' % args.reason)
-    md.append('- **Result since prior entry:** %s\n' % (args.result or '—'))
+    if basis == 'computed':
+        md.append('- **Result since prior entry:** %s  *(computed from daily opens %s → %s, net of fees '
+                  'and spread — recompute it yourself with `scripts/verify.py`)*\n'
+                  % (result_txt, start, this_date))
+    elif basis == 'asserted':
+        md.append('- **Result since prior entry:** %s  ⚠️ *(MANUALLY ENTERED, not computed from prices)*\n'
+                  % result_txt)
+    else:
+        md.append('- **Result since prior entry:** — *(first entry)*\n')
     if tracked:
         md.append('- **Tracked config:** %s\n' % tracked)
     md_text = ''.join(md)
