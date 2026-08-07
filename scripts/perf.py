@@ -44,6 +44,10 @@ def period_return(alloc, start, end, get_price):
 
     Returns (net_return_fraction, detail_rows).
     """
+    if end < start:
+        raise ValueError('period runs backwards (%s -> %s). Refusing to compute a return over a negative '
+                         'window — check the --effective-since date against the previous entry.'
+                         % (start, end))
     if is_cash(alloc):
         return 0.0, [{'symbol': 'CASH', 'weight': 100.0, 'start_price': None, 'end_price': None,
                       'change': 0.0, 'note': 'cash earns nothing and costs nothing'}]

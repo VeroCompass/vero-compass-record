@@ -58,12 +58,30 @@ def daily_opens(symbol, start, end):
     return out
 
 
-def price_on_or_after(symbol, date, window=10):
-    """The first available daily open on/after `date`. Crypto trades daily; gold does not (weekends,
-    holidays), so we step forward to the next session rather than inventing a price."""
-    end = (datetime.datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(days=window)).strftime('%Y-%m-%d')
-    px = daily_opens(symbol, date, end)
-    for d in sorted(px):
-        if d >= date:
-            return d, px[d]
-    raise PriceError('no %s price on or after %s' % (symbol, date))
+def today_utc():
+    """Market data is timestamped in UTC. Using a local date (e.g. Bangkok, UTC+7) asks for a candle that
+    does not exist yet for most of the day."""
+    return datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d')
+
+
+def price_on_or_after(symbol, date, window=10, back=5):
+    """
+    The daily open to use for `date`.
+
+    Prefers the first session on/after the date — crypto trades daily but gold does not (weekends,
+    holidays), so we step forward to the next session rather than inventing a price. If no session exists
+    on/after it yet (asking for today before the UTC candle has formed, or a market that is closed), we
+    fall back to the most recent session within `back` days and RETURN THAT DATE, so the caller records
+    the price actually used. Beyond that window we raise, rather than quietly mispricing a period.
+    """
+    d0 = datetime.datetime.strptime(date, '%Y-%m-%d')
+    start = (d0 - datetime.timedelta(days=back)).strftime('%Y-%m-%d')
+    end = (d0 + datetime.timedelta(days=window)).strftime('%Y-%m-%d')
+    px = daily_opens(symbol, start, end)
+    fwd = sorted(d for d in px if d >= date)
+    if fwd:
+        return fwd[0], px[fwd[0]]
+    prior = sorted(d for d in px if d < date)
+    if prior:
+        return prior[-1], px[prior[-1]]
+    raise PriceError('no %s price near %s' % (symbol, date))

@@ -112,7 +112,9 @@ def main():
 
     preflight(args.dry_run)
 
-    today = datetime.date.today().isoformat()
+    # UTC, not local time. Market data is stamped in UTC, and a public record should not be ambiguous
+    # about which day a call belongs to depending on where the person logging it happens to be sitting.
+    today = prices.today_utc()
     with open(CALLS, encoding=ENC) as f:
         data = json.load(f)
     before = json.dumps(data['calls'], ensure_ascii=False, sort_keys=True)   # append-only snapshot
@@ -145,6 +147,8 @@ def main():
                 die('could not price the previous allocation (%s).\nNothing was written. Retry when the '
                     'data source is reachable, or pass --result "<x%%>" to record it as an ASSERTED '
                     'figure — which the log will label as such.' % e)
+            except ValueError as e:
+                die('%s' % e)
 
     entry = {'n': n, 'state': args.state, 'allocation': alloc, 'logged': today,
              'reason': args.reason, 'result_since_prior': result_txt}
