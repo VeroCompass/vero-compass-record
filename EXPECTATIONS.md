@@ -21,26 +21,39 @@ periodic re-ranking with immediate exits, and a Bitcoin-trend crash filter to ca
 v1.3; v1.4 adds separate exit and entry alerts. Any change of the tracked engine will be announced in the
 log itself.
 
-## Where these expectation bands come from — read this before the numbers
-The bands below are deliberately **more conservative than the tracked configuration's own backtest**, and
-that is intentional. The shipped coin list was chosen with hindsight, which flatters its historical figures.
-The bands here instead come from **survivorship-free testing of this family of rules** — a universe that
-includes coins which later collapsed — measured on a close variant of the shipped configuration (a more
-concentrated, risk-parity-weighted version). They are therefore an approximation, not a like-for-like
-forecast of the tracked engine.
+## ⚠️ Correction, made before this record contains any live call
+An earlier version of this document quoted return and time-underwater figures that were **measured on the
+wrong basis** — a crypto-only book with the gold hedge removed, and a different configuration from the one
+actually tracked. The return figure in particular was wrong by roughly six times, in the *understating*
+direction. Those figures have been corrected or withdrawn below.
 
-We publish the conservative view on purpose. If the live record lands *above* these bands, good. If it
-lands below them, that is a genuine problem and this document exists so we cannot pretend otherwise.
+This correction is made **before the log contains a single live allocation call**, so nothing here is being
+revised after the fact to fit a result. The full edit history is public in this repository's commits. Where
+a figure has not yet been re-measured on the corrected basis, **it has been withdrawn rather than restated**
+— a number known to be measured wrongly does not belong in a document whose entire purpose is to be judged
+against later.
+
+## Where these expectation bands come from — read this before the numbers
+The tracked configuration's own backtest runs on a **coin list chosen with hindsight**, which flatters it.
+The bands below come instead from **survivorship-free testing** — a universe containing the coins as they
+actually ranked at the time, including those that later went to zero — with the gold hedge included, as the
+shipped product holds it.
+
+**That is the honest basis, and it is still a backtest.** If the live record lands above these bands, good.
+If it lands below them, that is a genuine problem, and this document exists so we cannot pretend otherwise.
 
 ## What we expect the live record to show, if the system works as characterised
 
-**Returns — expect modest, not spectacular.**
-- Central expectation in ordinary conditions: **roughly 10% per year.**
-- **Roughly one year in four should end lower than it started.** (Backtest: 26% of one-year start dates
-  finished down; the unlucky quartile finished at −3%.)
-- Large returns, if they come at all, will be concentrated in a strong alt-season. In the backtest, ~83% of
-  all gains came from a single year (2021). **We do not expect that to repeat on schedule, and the live
-  record should not be assumed to contain one.**
+**Returns — the backtest is strong, and you should still expect materially less.**
+- On survivorship-free data including the hedge, the tested decade compounded at roughly **60% a year**.
+  **Do not plan around that number.** A backtest flatters in ways a live record cannot: the parameters were
+  chosen with this history visible, and a single exceptional year does much of the work.
+- **The honest forward expectation is materially lower than the backtest**, and this record exists precisely
+  because no one — including us — can tell you by how much until it has run.
+- Large returns, when they come, are concentrated in strong alt-seasons rather than earned steadily.
+  **The live record should not be assumed to contain one.**
+- **Expect losing years.** A meaningful fraction of one-year starting points in the backtest ended below
+  where they began. Which year you start in matters more than most people expect.
 
 **Drawdown — expect it to be deep but controlled.**
 - Expect drawdowns around **40–55%**, and be unsurprised by 50%.
@@ -56,9 +69,13 @@ lands below them, that is a genuine problem and this document exists so we canno
   you in sustained bull markets.)*
 
 **Time underwater — expect this to be the hardest part.**
-- Expect to spend **most of your time below your best-ever balance.** In the backtest this was ~96% of days.
-- Expect flat or losing stretches lasting **over a year**; the worst historical stretch was **~23 months.**
+- Expect to spend **the great majority of your time below your best-ever balance.** This is not a
+  qualification; it is the normal state of this kind of system.
+- Expect flat or losing stretches lasting **well over a year.**
 - This is the normal shape of a trend-following system, and it is where most people quit.
+- *(Precise figures for time-underwater and worst flat stretch are being re-measured on the corrected
+  basis — see the correction note at the top of this document — and will be stated here once measured.
+  They are not quoted meanwhile rather than quote figures known to be measured wrongly.)*
 
 **Execution — one rule matters more than the rest.**
 - **Act on EXIT signals the same day.** Being two days late on exits destroyed roughly 40% of risk-adjusted
