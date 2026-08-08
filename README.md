@@ -5,6 +5,33 @@ Vero Compass system. It is owned infrastructure — not a social account, not re
 grows in public, one commit at a time, cannot be back-fabricated: GitHub stamps the server-side time of
 every push, and the full history is open for anyone to audit.
 
+## Don't trust this record — check it
+
+Every performance figure in this log is **computed from public market prices**, not typed in by hand. And
+you can re-derive all of them yourself:
+
+```bash
+python scripts/verify.py
+```
+
+No account, no API key, nothing to install — just Python. It reads the log, fetches the real daily opening
+prices of whatever was actually held on the exact dates it was held (Binance for crypto, Yahoo for gold),
+recomputes each return net of the same fee and spread model the backtest uses, and tells you whether the
+log's own claims reproduce. It also prints what simply holding Bitcoin did over the same window — including
+when that is the more flattering number.
+
+It exits **0** if every claim reproduced and **1** if any did not. If you find a discrepancy this script
+cannot explain, that is a real finding, and publishing the tool to find it is the point.
+
+**How to read the entries:** a result marked *computed* was measured from prices by
+[`scripts/add_call.py`](scripts/add_call.py). A result marked ⚠️ *manually entered* was asserted by a human
+and is not independently measured — the log labels those explicitly so you know which is which. The
+maths lives in [`scripts/perf.py`](scripts/perf.py) and the price fetching in
+[`scripts/prices.py`](scripts/prices.py); both are short enough to read in a few minutes.
+
+**What is deliberately not modelled:** exchange withdrawal fees, funding, slippage beyond the spread, and
+taxes. Those depend on your venue and your jurisdiction, and inventing them would be false precision.
+
 ## Pre-registered expectations
 **[`EXPECTATIONS.md`](EXPECTATIONS.md)** — written *before* this log contains any live call. It states what
 the record should look like if the system works as described, **and what would falsify that claim**. It is

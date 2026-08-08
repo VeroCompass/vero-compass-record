@@ -26,7 +26,8 @@
   .now{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
   .now .state{font-size:22px;font-weight:700}
-  .now .meta{color:var(--mut);font-size:14px}
+  .meta{color:var(--mut);font-size:13px}
+  .now .meta{font-size:14px}
   p{margin:0 0 12px}
   .hero{font-size:27px;line-height:1.3;font-weight:700;letter-spacing:-.3px;margin:0 0 10px}
   .lead{font-size:18px}
@@ -126,6 +127,15 @@
   </section>
 
   <section>
+    <h2>The record so far</h2>
+    <div class="card" id="summary"><span class="meta">Loading…</span></div>
+    <p style="font-size:13px;color:var(--mut);margin-top:10px">Every figure above is computed from the log
+    and public market prices by <code>scripts/build_summary.py</code> — none of it is written by hand, and
+    the Bitcoin comparison is shown whether it flatters this record or not. Recompute the whole thing
+    yourself with <code>python scripts/verify.py</code>.</p>
+  </section>
+
+  <section>
     <h2>The live record</h2>
     <p>Credibility doesn't come from a screenshot. It comes from a record that accumulates
     <em>continuously, in public, in real time</em>, on infrastructure I own — witnessed forming, not posted
@@ -200,6 +210,45 @@ function fmtAlloc(a){
   if(ks.length===1 && ks[0]==="CASH") return "100% cash";
   return ks.map(function(k){return k+" "+a[k]+"%";}).join(" · ");
 }
+// Signed, for returns — a gain and a loss must be visually distinguishable at a glance.
+function pct(x){ return (x==null) ? "—" : ((x>=0?"+":"") + (x*100).toFixed(1) + "%"); }
+// Unsigned, for magnitudes (drawdown, share of time). A drawdown printed as "+40%" reads like a profit.
+function mag(x){ return (x==null) ? "—" : (Math.abs(x)*100).toFixed(1) + "%"; }
+fetch("summary.json").then(function(r){return r.json();}).then(function(s){
+  var el = document.getElementById("summary");
+  if (s.calls_logged === undefined) { el.innerHTML = '<span class="meta">No summary yet.</span>'; return; }
+  var behind = s.btc_buy_hold_same_window != null && !s.ahead_of_btc;
+  var rows = [
+    ["Live for", (s.days_live||0) + " days (since " + s.inception + ")"],
+    ["Return since inception", pct(s.return_since_inception)],
+    ["Worst drawdown so far", mag(s.worst_drawdown_so_far)],
+    ["Currently down from peak", mag(s.current_drawdown)],
+    ["Time held in cash", mag(s.pct_time_in_cash) + " of the record"],
+    ["Calls logged", String(s.calls_logged)]
+  ];
+  var h = '<table style="width:100%">';
+  rows.forEach(function(r){ h += '<tr><td style="color:var(--mut)">'+r[0]+'</td><td><strong>'+r[1]+'</strong></td></tr>'; });
+  if (s.btc_buy_hold_same_window != null) {
+    h += '<tr><td style="color:var(--mut)">Simply holding Bitcoin</td><td><strong>'
+       + pct(s.btc_buy_hold_same_window) + '</strong> &nbsp;<span style="color:'
+       + (behind ? 'var(--warn)' : 'var(--on)') + '">'
+       + (behind ? 'this record is BEHIND holding Bitcoin' : 'this record is ahead') + '</span></td></tr>';
+  }
+  h += '</table>';
+  // Say how the drawdown was measured. Measuring it only on the dates calls were made would hide every
+  // dip that recovered in between — which is precisely the number a buyer needs to be told honestly.
+  if (s.drawdown_basis) {
+    var incomplete = s.drawdown_basis.indexOf("INCOMPLETE") === 0;
+    h += '<p style="font-size:13px;margin:12px 0 0;color:var(--' + (incomplete ? 'warn' : 'mut') + ')">'
+       + 'Drawdown basis: ' + s.drawdown_basis + '.</p>';
+  }
+  if (s.caveat) h += '<p style="font-size:13px;color:var(--warn);margin:12px 0 0">' + s.caveat + '</p>';
+  if (s.caveat_unpriced) h += '<p style="font-size:13px;color:var(--warn);margin:6px 0 0">' + s.caveat_unpriced + '</p>';
+  el.innerHTML = h;
+}).catch(function(){
+  document.getElementById("summary").innerHTML = '<span class="meta">Could not load summary.json.</span>';
+});
+
 fetch("calls.json").then(function(r){return r.json();}).then(function(d){
   var calls = (d.calls||[]).slice();
   var last = calls[calls.length-1];
@@ -215,8 +264,16 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
   calls.slice().reverse().forEach(function(c){
     var tr=document.createElement("tr");
     var st = c.state==="risk-off" ? '<span class="tag off">risk-off</span>' : '<span class="tag on">risk-on</span>';
+    // A result that was measured from prices and one that a human typed in are not the same claim, so the
+    // table says which is which rather than letting them look identical.
+    var res = c.result_since_prior==null ? "—" : c.result_since_prior;
+    if (c.result_basis==="computed") {
+      res += ' <span class="meta" title="Measured from daily opening prices of what was actually held, net of fees and spread. Recheck it with scripts/verify.py.">computed</span>';
+    } else if (c.result_basis==="asserted") {
+      res += ' <span class="warn" title="Entered by hand, not measured from prices.">⚠ manually entered</span>';
+    }
     tr.innerHTML = "<td>"+c.n+"</td><td>"+(c.logged||"")+"</td><td>"+st+"</td><td>"+fmtAlloc(c.allocation)+
-      "</td><td>"+(c.result_since_prior==null?"—":c.result_since_prior)+"</td>";
+      "</td><td>"+res+"</td>";
     tb.appendChild(tr);
   });
 }).catch(function(){

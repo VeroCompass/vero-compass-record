@@ -26,10 +26,20 @@ def _ts(d):
     return int(datetime.datetime.strptime(d, '%Y-%m-%d').replace(tzinfo=datetime.timezone.utc).timestamp())
 
 
+_CACHE = {}
+
+
 def _fetch(url):
+    # Cached for the life of the process only. Building the summary asks for overlapping windows many
+    # times over; re-downloading them would be slow and rude to a free public endpoint. Nothing is cached
+    # to disk, so a fresh run always re-checks the real source.
+    if url in _CACHE:
+        return _CACHE[url]
     req = urllib.request.Request(url, headers=UA)
     with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode('utf-8', 'replace'))
+        j = json.loads(r.read().decode('utf-8', 'replace'))
+    _CACHE[url] = j
+    return j
 
 
 def daily_opens(symbol, start, end):

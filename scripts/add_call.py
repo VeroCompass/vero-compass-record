@@ -213,7 +213,19 @@ def main():
                 die('%s is not valid UTF-8 after write (%s). Files restored, nothing committed.'
                     % (os.path.basename(p), e))
 
-    run(['git', 'add', 'calls.json', 'LOG.md'], check=True)
+    # Regenerate the public performance summary so it can never drift from the log it describes.
+    # A failure here must not lose the call — the entry is already written and correct.
+    try:
+        import build_summary
+        s, _ = build_summary.build()
+        with open(os.path.join(ROOT, 'summary.json'), 'w', encoding=ENC) as f:
+            json.dump(s, f, indent=2, ensure_ascii=False); f.write('\n')
+        print('Regenerated summary.json.')
+    except Exception as e:
+        print('WARNING: could not regenerate summary.json (%s). The call is still being logged; '
+              'run "python scripts/build_summary.py" once the data source is back.' % e, file=sys.stderr)
+
+    run(['git', 'add', 'calls.json', 'LOG.md', 'summary.json'], check=True)
     c = run(['git'] + IDENT + ['commit', '-m', 'call #%d: %s — %s' % (n, args.state, alloc_str(alloc))])
     if c.returncode != 0:
         die('commit failed (git exit %d). Nothing was published; the edited files are still in the '
