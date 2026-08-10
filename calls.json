@@ -12,12 +12,44 @@
     {
       "n": 1,
       "state": "risk-off",
-      "allocation": { "CASH": 100 },
+      "allocation": {
+        "CASH": 100
+      },
       "logged": "2026-08-02",
       "effective_since": "2026-06-01",
       "effective_since_note": "Verifiable on the indicator backtest; not a live-tracked claim. Live forward record starts at inception.",
       "reason": "BTC below its 120-day trend filter — system holds no crypto, sits in cash.",
       "result_since_prior": null
+    },
+    {
+      "n": 2,
+      "state": "risk-off",
+      "allocation": {
+        "GOLD": 100
+      },
+      "logged": "2026-08-10",
+      "reason": "Bitcoin is still below its long-term trend, so no crypto qualifies. Gold has now passed its own trend gate, so the book moves out of cash and into the gold hedge.",
+      "result_since_prior": "+0.0%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-08-02",
+        "to": "2026-08-09",
+        "allocation_held": {
+          "CASH": 100
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "CASH",
+            "weight": 100.0,
+            "start_price": null,
+            "end_price": null,
+            "change": 0.0,
+            "note": "cash earns nothing and costs nothing"
+          }
+        ]
+      },
+      "effective_since": "2026-08-09"
     }
   ]
 }

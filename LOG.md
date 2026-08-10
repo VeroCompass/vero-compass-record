@@ -20,3 +20,14 @@ verifiable on the Vero Compass indicator's own backtest; the live forward record
 
 *The system is currently in cash, so no live trades are being missed — the timeline is anchored now, and
 the first live allocation call will be appended here the moment the system leaves cash.*
+
+---
+
+### Entry #2 — RISK-OFF
+- **Logged:** 2026-08-10
+- **State:** RISK-OFF — **no crypto qualifies; held in the hedge**
+- **Allocation:** `GOLD 100%`
+- **In effect since:** 2026-08-09
+- **Why:** Bitcoin is still below its long-term trend, so no crypto qualifies. Gold has now passed its own trend gate, so the book moves out of cash and into the gold hedge.
+- **Result since prior entry:** +0.0%  *(computed from daily opens 2026-08-02 → 2026-08-09, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.3/v1.4 (12-asset pool including gold, up to 6 held, inverse-volatility sizing, BTC-trend crash filter — crypto moves to cash while the gold hedge is exempt and may stay held). v1.4 is numerically identical to v1.3 and adds separate exit/entry alerts.
