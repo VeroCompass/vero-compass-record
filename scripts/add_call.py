@@ -170,9 +170,17 @@ def main():
         entry['effective_since'] = args.effective_since
 
     tracked = data.get('tracked_config', '')
+    # The state line must never contradict the allocation line directly beneath it. Risk-off does NOT
+    # imply cash: the gold hedge is exempt from the crash filter, so the book can be risk-off and still
+    # fully invested in gold. Hardcoding "100% CASH" here would publish a self-contradicting entry.
+    if args.state == 'risk-off':
+        st_txt = 'RISK-OFF — **100% CASH**' if list(alloc.keys()) == ['CASH'] \
+                 else 'RISK-OFF — **no crypto qualifies; held in the hedge**'
+    else:
+        st_txt = 'RISK-ON'
     md = ['\n---\n', '\n### Entry #%d — %s\n' % (n, args.state.upper()),
           '- **Logged:** %s\n' % today,
-          '- **State:** %s\n' % ('RISK-OFF — **100% CASH**' if args.state == 'risk-off' else 'RISK-ON'),
+          '- **State:** %s\n' % st_txt,
           '- **Allocation:** `%s`\n' % alloc_str(alloc)]
     if args.effective_since:
         md.append('- **In effect since:** %s\n' % args.effective_since)
