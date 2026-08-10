@@ -1,7 +1,7 @@
 {
   "product": "Vero Compass",
   "description": "Public, append-only, real-time log of every allocation call. Owned infrastructure.",
-  "tracked_config": "Vero Compass v1.4 (12-coin pool, up to 6 held, inverse-volatility sizing, BTC-trend crash filter to cash). Numerically identical to v1.3; v1.4 adds separate exit/entry alerts.",
+  "tracked_config": "Vero Compass v1.3/v1.4 (12-asset pool including gold, up to 6 held, inverse-volatility sizing, BTC-trend crash filter — crypto moves to cash while the gold hedge is exempt and may stay held). v1.4 is numerically identical to v1.3 and adds separate exit/entry alerts.",
   "log_inception": "2026-08-02",
   "honesty": {
     "live_vs_backtest": "This log is the LIVE forward record from inception. Backtest is separately verifiable on the TradingView indicator.",
