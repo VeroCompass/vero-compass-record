@@ -23,6 +23,13 @@ REAL-TIME / AUTOMATED: wire this to the TradingView alert for the tracked indica
 the moment of the call. Also send the same entry to your email list (see the EMAIL hook at the bottom).
 """
 import argparse, json, os, subprocess, sys, datetime
+
+# Windows consoles default to cp1252, which cannot encode the em-dashes and arrows this script prints.
+# The FILE writes are already explicitly UTF-8; this fixes the same failure on stdout/stderr, which
+# otherwise crashes a --dry-run (and would hide any message printed after the failure point).
+for _s in (sys.stdout, sys.stderr):
+    if hasattr(_s, 'reconfigure'):
+        _s.reconfigure(encoding='utf-8', errors='replace')
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import prices, perf
 
