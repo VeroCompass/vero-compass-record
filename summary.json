@@ -1,17 +1,17 @@
 {
-  "generated_utc": "2026-08-10",
+  "generated_utc": "2026-08-27",
   "inception": "2026-08-02",
   "calls_logged": 2,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
-  "days_live": 8,
-  "return_since_inception": -0.0023999999999999577,
-  "worst_drawdown_so_far": 0.0023999999999999577,
-  "current_drawdown": 0.0023999999999999577,
+  "days_live": 25,
+  "return_since_inception": 0.06999221772426778,
+  "worst_drawdown_so_far": 0.01962074084378534,
+  "current_drawdown": 0.0,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
-  "days_invested": 1,
-  "pct_time_in_cash": 0.875,
-  "curve_points": 5,
+  "days_invested": 18,
+  "pct_time_in_cash": 0.28,
+  "curve_points": 18,
   "periods": [
     {
       "from": "2026-08-02",
@@ -25,18 +25,18 @@
     },
     {
       "from": "2026-08-09",
-      "to": "2026-08-10",
+      "to": "2026-08-27",
       "held": {
         "GOLD": 100
       },
-      "return": -0.0024000000000000002,
+      "return": 0.06999221772426774,
       "open_period": true,
-      "equity_after": 0.9976
+      "equity_after": 1.0699922177242678
     }
   ],
   "unpriced_periods": [],
-  "btc_buy_hold_same_window": 0.03307576048192029,
-  "vs_btc": -0.03547576048192025,
+  "btc_buy_hold_same_window": 0.25786626533160684,
+  "vs_btc": -0.18787404760733906,
   "ahead_of_btc": false,
-  "caveat": "This record is 8 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
+  "caveat": "This record is 25 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
 }
