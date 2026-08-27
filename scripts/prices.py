@@ -9,9 +9,14 @@ Yahoo's public chart endpoint. Both are free and keyless.
 Prices used are DAILY OPENS, because the system acts at the next open after a signal — so the opens are
 the prices a follower could actually have traded at.
 """
-import json, urllib.request, datetime
+import json, urllib.request, urllib.error, datetime
 
-BINANCE = 'https://api.binance.com/api/v3/klines?symbol=%sUSDT&interval=1d&startTime=%d&endTime=%d&limit=1000'
+# Binance's public klines, tried in order. The first is the canonical host; the second is Binance's own
+# public data mirror. api.binance.com answers 451 to a number of cloud/CI address ranges, so a scheduled
+# refresh running in a datacentre needs the second door. Same exchange, same candles — this changes where
+# the data is fetched from, never what is being measured.
+BINANCE_HOSTS = ('https://api.binance.com', 'https://data-api.binance.vision')
+KLINES_PATH = '/api/v3/klines?symbol=%sUSDT&interval=1d&startTime=%d&endTime=%d&limit=1000'
 YAHOO = 'https://query1.finance.yahoo.com/v8/finance/chart/%s?period1=%d&period2=%d&interval=1d'
 GOLD_TICKER = 'GC=F'          # gold futures — the public stand-in for the indicator's spot gold feed
 UA = {'User-Agent': 'Mozilla/5.0 (vero-compass-verify)'}
@@ -42,6 +47,25 @@ def _fetch(url):
     return j
 
 
+def _klines(symbol, lo, hi):
+    """Daily klines for `symbol`, falling through to the mirror if the first host refuses us.
+
+    Only a geo-block or a refusal is retried elsewhere. Any other failure is a real one and is raised, so
+    a genuine outage can never be quietly papered over by trying another host and getting nothing.
+    """
+    last = None
+    for host in BINANCE_HOSTS:
+        try:
+            return _fetch(host + KLINES_PATH % (symbol.upper(), lo, hi))
+        except urllib.error.HTTPError as e:
+            if e.code not in (403, 451):      # 451 = blocked for legal/region reasons, 403 = refused
+                raise
+            last = 'HTTP %s from %s' % (e.code, host)
+        except urllib.error.URLError as e:
+            last = '%s from %s' % (e.reason, host)
+    raise PriceError('no Binance host would serve %s (last: %s)' % (symbol, last))
+
+
 def daily_opens(symbol, start, end):
     """{'YYYY-MM-DD': open_price} for symbol, inclusive of start, through end."""
     lo, hi = _ts(start) * 1000, (_ts(end) + 86400) * 1000
@@ -58,7 +82,7 @@ def daily_opens(symbol, start, end):
             if v:
                 out[datetime.datetime.utcfromtimestamp(t).strftime('%Y-%m-%d')] = float(v)
     else:
-        j = _fetch(BINANCE % (symbol.upper(), lo, hi))
+        j = _klines(symbol, lo, hi)
         if not isinstance(j, list):
             raise PriceError('unexpected response for %s (symbol delisted or renamed?)' % symbol)
         for k in j:

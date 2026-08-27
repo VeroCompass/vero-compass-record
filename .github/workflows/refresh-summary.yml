@@ -1,0 +1,61 @@
+name: Refresh the live summary
+
+# WHY THIS EXISTS
+# summary.json is the headline table the site renders, and it is only true if something regenerates it.
+# For eighteen days nothing did. It updated only when a human ran build_summary.py and pushed, so it
+# froze the day after call #2 and the page went on advertising "Live for 8 days" into week four - while
+# the real figures had moved to 25 days and +7.0%, against Bitcoin's +25.8%. Note the direction: stale,
+# the gap to Bitcoin read 3.5 points; true, it was 18.8. Drift is not neutral, and that time it flattered.
+#
+# A record sold on being kept in real time cannot depend on its author being at a desk. This runs on
+# GitHub's machines, so it keeps going while he is asleep, travelling, or his PC is off.
+
+on:
+  schedule:
+    - cron: '20 1 * * *'      # 01:20 UTC daily, once the previous UTC day's candles have closed
+  workflow_dispatch:          # and runnable by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-summary
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # No API keys, no packages - prices.py uses Binance's and Yahoo's public endpoints only.
+      # api.binance.com answers 451 to many cloud address ranges, so prices.py falls through to
+      # data-api.binance.vision, Binance's own public data mirror. Same exchange, same candles.
+      - name: Rebuild summary.json from public prices
+        run: python scripts/build_summary.py
+
+      # Never publish a table that does not reproduce. If this fails, the summary is NOT committed and
+      # the run goes red - which is the correct outcome: a real discrepancy should stop the machine and
+      # fetch a human, not quietly overwrite the page.
+      - name: Verify the record still reproduces
+        run: python scripts/verify.py
+
+      - name: Commit, but only if a number actually moved
+        run: |
+          git config user.name  "Vero Compass"
+          git config user.email "vero-compass@users.noreply.github.com"
+          git add summary.json
+          if git diff --cached --quiet; then
+            echo "Nothing moved. No commit."
+          else
+            git commit -m "Daily refresh: recompute the live summary from public prices"
+            git push
+          fi
+
+# NOTE: GitHub disables scheduled workflows in a repository with no activity for 60 days. This one
+# commits most days, which keeps itself alive - but if the log ever goes quiet for two months, check
+# the Actions tab before trusting the table.
