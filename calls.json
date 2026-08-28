@@ -1,7 +1,7 @@
 {
   "product": "Vero Compass",
   "description": "Public, append-only, real-time log of every allocation call. Owned infrastructure.",
-  "tracked_config": "Vero Compass v1.6 (12-asset pool including gold, up to 6 held, inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.",
+  "tracked_config": "Vero Compass v1.6 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.",
   "log_inception": "2026-08-02",
   "honesty": {
     "live_vs_backtest": "This log is the LIVE forward record from inception. Backtest is separately verifiable on the TradingView indicator.",
@@ -63,6 +63,16 @@
       "known_cost": "The benefit is concentrated in falling and choppy markets. Split by era, the new rule returned about 34% of the old one through the bull-dominated 2017-2021 stretch and about 141% through 2022-2026. If a strong alt season arrives, expect this version to lag the one it replaced. That is the trade being made deliberately, not an unexpected outcome.",
       "drawdown_claim_scope": "Lower drawdown is true from 2018 onward and strongly true after 2021. It is NOT true across the full 2017-start record on the curated pool. Any drawdown claim must name its period.",
       "applies_to": "Entries #1 and #2 were produced by v1.3/v1.4 and are unchanged. Entry #3 onward is produced by v1.6."
+    }
+  ],
+  "corrections": [
+    {
+      "date": "2026-08-28",
+      "corrects": "tracked_config, and the final sentence of engine_changes[0].what_changed, both published earlier today",
+      "what_we_published": "That the book holds 'up to 6' positions, and that 'selection, pool, position count, sizing and the crash filter are unchanged' from v1.3/v1.4.",
+      "what_is_actually_true": "Two things changed in v1.6, not one. Gold is now held as a permanent hedge sleeve whenever it passes its own trend gate, instead of having to win a top-6 momentum slot − so the book can hold up to 7 positions (6 coins plus gold) where before it held 6. And when the hedge is funded, the money comes from selling the weakest-ranked holdings rather than trimming every holding proportionally. Pool, base sizing (inverse-volatility), the crash filter, momentum length, trend gate and rebalance cadence are genuinely unchanged.",
+      "how_it_was_found": "By reading the indicator's source after publication and confirming empirically that the book reaches 7 concurrent positions. The description had been written from research notes rather than from the code.",
+      "why_we_are_telling_you": "We verify every published FIGURE against the data that produced it. This was a claim about how the mechanism works, in prose, and it went out with no such check because prose was not on the checklist. The indicator itself was correct throughout and no allocation, weight or logged call is affected − the error was in our description of it. The original wording is left in place above rather than rewritten, because a record that quietly edits its mistakes is not a record."
     }
   ]
 }
