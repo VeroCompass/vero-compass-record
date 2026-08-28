@@ -1,7 +1,7 @@
 {
   "product": "Vero Compass",
   "description": "Public, append-only, real-time log of every allocation call. Owned infrastructure.",
-  "tracked_config": "Vero Compass v1.3/v1.4 (12-asset pool including gold, up to 6 held, inverse-volatility sizing, BTC-trend crash filter — crypto moves to cash while the gold hedge is exempt and may stay held). v1.4 is numerically identical to v1.3 and adds separate exit/entry alerts.",
+  "tracked_config": "Vero Compass v1.6 (12-asset pool including gold, up to 6 held, inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.",
   "log_inception": "2026-08-02",
   "honesty": {
     "live_vs_backtest": "This log is the LIVE forward record from inception. Backtest is separately verifiable on the TradingView indicator.",
@@ -50,6 +50,19 @@
         ]
       },
       "effective_since": "2026-08-09"
+    }
+  ],
+  "engine_changes": [
+    {
+      "date": "2026-08-28",
+      "from": "v1.3/v1.4",
+      "to": "v1.6",
+      "what_changed": "When the book moves into the gold hedge, the money now comes from selling the weakest-ranked holdings instead of trimming every holding proportionally. Selection, pool, position count, sizing and the crash filter are unchanged.",
+      "why": "On a survivorship-free test universe − one that keeps the coins which later went to zero − the change returns about 29% more with roughly 15 points less drawdown. That universe is the one that resembles live trading, because nobody knows in advance which coins survive.",
+      "what_it_does_not_improve": "Measured instead on our curated 12-coin pool, the same change roughly HALVES the return and, across the full 2017-start window, improves drawdown by 0.1 points − that is, not at all. The reason is structural: those 12 coins are survivors, so the 'weakest holding' being sold is always a future winner and the rule only shows its cost. We consider the survivorship-free result the honest one, and we are publishing the unflattering one beside it rather than choosing whichever flatters.",
+      "known_cost": "The benefit is concentrated in falling and choppy markets. Split by era, the new rule returned about 34% of the old one through the bull-dominated 2017-2021 stretch and about 141% through 2022-2026. If a strong alt season arrives, expect this version to lag the one it replaced. That is the trade being made deliberately, not an unexpected outcome.",
+      "drawdown_claim_scope": "Lower drawdown is true from 2018 onward and strongly true after 2021. It is NOT true across the full 2017-start record on the curated pool. Any drawdown claim must name its period.",
+      "applies_to": "Entries #1 and #2 were produced by v1.3/v1.4 and are unchanged. Entry #3 onward is produced by v1.6."
     }
   ]
 }

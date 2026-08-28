@@ -21,6 +21,24 @@ periodic re-ranking with immediate exits, and a Bitcoin-trend crash filter to ca
 v1.3; v1.4 adds separate exit and entry alerts. Any change of the tracked engine will be announced in the
 log itself.
 
+> **Addendum, 2026-08-28 — the tracked engine changed to v1.6.** The paragraph above is left exactly as
+> written on 2026-08-06 and still describes what was tracked then; entries #1 and #2 were produced by it. From
+> 2026-08-28 the tracked engine is **v1.6**, which funds the gold hedge by selling the weakest-ranked holdings
+> instead of trimming all of them proportionally. Everything else − pool, selection, position count,
+> sizing, crash filter − is unchanged, so **every expectation band below still applies**.
+>
+> The honest reason, with the unflattering half included: on survivorship-free data the change returns about
+> **29% more with roughly 15 points less drawdown**. On our curated 12-coin pool it roughly **halves the return**
+> and improves full-window drawdown by **0.1 points, i.e. not at all** − because those 12 are survivors, so
+> the weakest holding it sells is always a future winner. We treat the survivorship-free result as the real one
+> because live trading does not know the survivors in advance.
+>
+> **What this predicts, stated in advance as this document requires:** the new rule is expected to LAG the old
+> one in a strong alt season − about 34% of its return through 2017-2021, against about 141% through
+> 2022-2026. If the live record underperforms during a crypto bull run, that is this change behaving as
+> characterised, not a surprise. If it fails to protect in the next real drawdown, that IS a falsification.
+> Full detail in `calls.json` under `engine_changes`.
+
 ## ⚠️ Correction, made before this record contains any live call
 An earlier version of this document quoted return and time-underwater figures that were **measured on the
 wrong basis** — a crypto-only book with the gold hedge removed, and a different configuration from the one
