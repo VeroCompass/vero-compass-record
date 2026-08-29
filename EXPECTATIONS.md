@@ -33,6 +33,19 @@ log itself.
 > the weakest holding it sells is always a future winner. We treat the survivorship-free result as the real one
 > because live trading does not know the survivors in advance.
 >
+> **🔴 Correction to this addendum, 2026-08-30.** The sentence above says *'pool, selection,
+> position count, sizing, crash filter − is unchanged'*. **Two thirds of that is wrong, and it was
+> written here by us.** v1.6 also holds gold as a permanent hedge sleeve whenever it passes its own trend
+> gate, appended alongside the top-six coins instead of having to win a slot among them — so the book
+> can hold **up to seven positions (six coins plus gold)** where before it held six. **Selection and position
+> count both changed.** Pool, base inverse-volatility sizing, the crash filter, momentum length, trend gate
+> and rebalance cadence are genuinely unchanged, and every expectation band below still applies.
+>
+> Found by reading the indicator's source after publication and confirming the book reaches seven concurrent
+> positions. The same correction was published in `calls.json` under `corrections` on 2026-08-28; **it should
+> have been made here the same day and was not.** The original wording is left standing above rather than
+> rewritten, for the same reason every other correction in this repository is.
+>
 > **What this predicts, stated in advance as this document requires:** the new rule is expected to LAG the old
 > one in a strong alt season − about 34% of its return through 2017-2021, against about 141% through
 > 2022-2026. If the live record underperforms during a crypto bull run, that is this change behaving as

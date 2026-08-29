@@ -4,9 +4,9 @@
   "calls_logged": 2,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
   "days_live": 27,
-  "return_since_inception": 0.07137594961810567,
-  "worst_drawdown_so_far": 0.01962074084378513,
-  "current_drawdown": 0.0012000000000000233,
+  "return_since_inception": 0.05829963817798278,
+  "worst_drawdown_so_far": 0.01962074084378532,
+  "current_drawdown": 0.009534142966391615,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
   "days_invested": 20,
@@ -29,14 +29,14 @@
       "held": {
         "GOLD": 100
       },
-      "return": 0.07137594961810563,
+      "return": 0.05829963817798274,
       "open_period": true,
-      "equity_after": 1.0713759496181057
+      "equity_after": 1.0582996381779828
     }
   ],
   "unpriced_periods": [],
   "btc_buy_hold_same_window": 0.2391174342783331,
-  "vs_btc": -0.16774148466022742,
+  "vs_btc": -0.18081779610035031,
   "ahead_of_btc": false,
   "caveat": "This record is 27 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
 }
