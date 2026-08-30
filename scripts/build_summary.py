@@ -23,8 +23,10 @@ def build():
     calls = data.get('calls') or []
     inception = data.get('log_inception')
     today = prices.today_utc()
+    # Value open positions to the last SETTLED bar, never to today's provisional one.
+    as_of = prices.last_settled_date()
 
-    out = {'generated_utc': today, 'inception': inception, 'calls_logged': len(calls),
+    out = {'generated_utc': today, 'valued_as_of': as_of, 'inception': inception, 'calls_logged': len(calls),
            'note': 'Every figure here is computed from calls.json and public prices by '
                    'scripts/build_summary.py. Nothing on this page is hand-written.'}
 
@@ -40,11 +42,13 @@ def build():
         start = prev.get('effective_since') or prev.get('logged')
         if inception and start < inception:
             start = inception
-        end = (calls[i + 1].get('effective_since') or calls[i + 1].get('logged')) if i + 1 < len(calls) else today
+        end = (calls[i + 1].get('effective_since') or calls[i + 1].get('logged')) if i + 1 < len(calls) else as_of
         if end < start:
             continue
         try:
-            r, _ = perf.period_return(prev.get('allocation', {}), start, end, prices.price_on_or_after)
+            is_open = (i + 1 >= len(calls))
+            r, _ = perf.period_return(prev.get('allocation', {}), start, end, prices.price_on_or_after,
+                                       prices.price_on_or_before if is_open else None)
         except Exception as e:
             unpriced.append({'from': start, 'to': end, 'why': str(e)})
             daily_ok = False       # a hole in the curve means the drawdown below is not the whole story
@@ -99,7 +103,7 @@ def build():
     # --- the comparison, flattering or not ---
     try:
         _, b0 = prices.price_on_or_after('BTC', inception)
-        _, b1 = prices.price_on_or_after('BTC', today)
+        _, b1 = prices.price_on_or_before('BTC', as_of)
         btc = b1 / b0 - 1.0
         out['btc_buy_hold_same_window'] = btc
         out['vs_btc'] = (equity - 1.0) - btc
@@ -119,8 +123,58 @@ def build():
     return out, data
 
 
+def revision_vs_published(new):
+    """
+    Compare the freshly-built figures against the PREVIOUSLY PUBLISHED summary.json still on disk.
+
+    WHY THIS EXISTS, and why the existing in-run verify cannot do it: the Action builds the summary and
+    then verifies it by recomputing from the same data in the same run, so the two agree by construction.
+    That check is self-confirming and is structurally blind to a data revision. This one is not - it
+    compares today's answer to what we actually told the public yesterday.
+
+    Pricing to the last settled bar makes revisions rarer; it cannot make them impossible, because a
+    source can revise a bar days later. So the lag is the prevention and this is the detection, and the
+    detection is the part that keeps working when the prevention does not.
+
+    Never raises, never blocks: the newly-computed figure is the better one and should always publish.
+    The point is that a change is SEEN and recorded, not that it is stopped.
+    """
+    try:
+        with open(os.path.join(ROOT, 'summary.json'), encoding='utf-8-sig') as f:
+            old = json.load(f)
+    except Exception:
+        return None
+
+    # GATE: only compare builds that value as of the SAME date.
+    # Without this the detector fires every single day, because a scheduled run crosses midnight, the
+    # window grows by a day, and the figures move for an entirely legitimate reason. That is not a
+    # revision - it is the record getting longer. The first version of this function asserted "same
+    # period" in its own message and never tested it, which is the exact defect class it was written to
+    # catch: a checker claiming a property it does not verify.
+    a_old, a_new = old.get('valued_as_of'), new.get('valued_as_of')
+    if not a_old or not a_new or a_old != a_new:
+        return {'skipped': True, 'previous_valued_as_of': a_old, 'this_valued_as_of': a_new,
+                'why': ('nothing to compare: the previous summary valued as of %s and this build values '
+                        'as of %s, so any difference is the window advancing, not a data revision'
+                        % (a_old or 'an unrecorded date', a_new))}
+    moved = {}
+    for k in ('return_since_inception', 'btc_buy_hold_same_window', 'worst_drawdown_so_far'):
+        a, b = old.get(k), new.get(k)
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)) and abs(b - a) > 0.001:
+            moved[k] = {'was': round(a, 5), 'now': round(b, 5), 'change_pp': round((b - a) * 100, 2)}
+    if not moved:
+        return None
+    return {'previous_generated_utc': old.get('generated_utc'), 'changed': moved,
+            'note': 'These figures differ from the previously published summary for the SAME period. '
+                    'The cause is a revision in the underlying public price data, not an edit to the log. '
+                    'The new values are the ones now published.'}
+
+
 if __name__ == '__main__':
     s, _ = build()
+    rev = revision_vs_published(s)
+    if rev and not rev.get('skipped'):
+        s['revised_since_last_publish'] = rev
     with open(os.path.join(ROOT, 'summary.json'), 'w', encoding='utf-8') as f:
         json.dump(s, f, indent=2, ensure_ascii=False)
         f.write('\n')
@@ -135,3 +189,12 @@ if __name__ == '__main__':
               (perf.fmt_pct(b), 'AHEAD' if s.get('ahead_of_btc') else 'BEHIND'))
     if s.get('caveat'):
         print('  ' + s['caveat'])
+    if rev and rev.get('skipped'):
+        print('  revision check skipped - %s' % rev['why'])
+    elif rev:
+        print('')
+        print('  *** FIGURES REVISED SINCE THE LAST PUBLISH (same period, revised source data) ***')
+        for k, v in rev['changed'].items():
+            print('      %-28s %+.2fpp   (was %.4f, now %.4f)' % (k, v['change_pp'], v['was'], v['now']))
+        print('      Previous publish: %s. The new values are the ones being published now.'
+              % rev.get('previous_generated_utc'))

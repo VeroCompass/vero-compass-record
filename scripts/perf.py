@@ -35,12 +35,16 @@ def turnover_cost(alloc):
     return sum((w / 100.0) * (FEE + SPREAD.get(c.upper(), DEFAULT_SPREAD)) for c, w in alloc.items())
 
 
-def period_return(alloc, start, end, get_price):
+def period_return(alloc, start, end, get_price, get_end_price=None):
     """
     Return of `alloc` held from `start` to `end`, net of the round trip in and out of it.
 
     get_price(symbol, date) -> (actual_date_used, price). Any failure propagates: a period that cannot be
     priced must not silently become 0%.
+
+    get_end_price: optional separate getter for the CLOSING leg. The open (still-running) period needs a
+    different primitive at each end - forward at entry, backward at valuation - because marking an open
+    position to a bar that does not exist yet is how a published figure drifts.
 
     Returns (net_return_fraction, detail_rows).
     """
@@ -60,7 +64,7 @@ def period_return(alloc, start, end, get_price):
                          'change': 0.0, 'note': 'idle cash'})
             continue
         d0, p0 = get_price(sym, start)
-        d1, p1 = get_price(sym, end)
+        d1, p1 = (get_end_price or get_price)(sym, end)
         chg = p1 / p0 - 1.0
         gross += (w / 100.0) * chg
         # rounded so the public JSON reads cleanly; the maths above uses full precision

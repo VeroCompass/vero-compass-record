@@ -83,8 +83,23 @@ def check_summary(data, calls, equity, complete):
 
     last = calls[-1]
     start = last.get('effective_since') or last.get('logged')
+
+    # The OPEN leg is valued exactly as the builder valued it: to the summary's own published
+    # valued_as_of, using the BACKWARD (valuation) getter. The closed legs above keep the forward getter
+    # at both ends - those are real entries and exits at call dates, and forward is right for them.
+    #
+    # Reading valued_as_of from the summary rather than recomputing it matters: a verifier run a day
+    # later would otherwise mark to a different date and report a disagreement that is really just the
+    # window advancing - the same false-alarm shape as the revision detector's date-boundary bug.
+    as_of, end_getter = s.get('valued_as_of'), prices.price_on_or_before
+    if not as_of:
+        # A summary published before valued_as_of existed was genuinely built the old way. Verifying it
+        # on the new basis would fail it for a change we made, not an error it contains.
+        as_of, end_getter = gen, prices.price_on_or_after
+        print('  (this summary predates valued_as_of, so it is checked on the basis it was built with)')
     try:
-        openr, _ = perf.period_return(last.get('allocation', {}), start, gen, prices.price_on_or_after)
+        openr, _ = perf.period_return(last.get('allocation', {}), start, as_of,
+                                      prices.price_on_or_after, end_getter)
     except Exception as e:
         print('  could not price the still-open period (%s) — total not cross-checked.' % e)
         return rc

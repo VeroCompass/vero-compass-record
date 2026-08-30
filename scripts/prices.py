@@ -8,6 +8,22 @@ Yahoo's public chart endpoint. Both are free and keyless.
 
 Prices used are DAILY OPENS, because the system acts at the next open after a signal — so the opens are
 the prices a follower could actually have traded at.
+
+TWO PRIMITIVES, AND THEY ARE NOT INTERCHANGEABLE:
+  price_on_or_after   ENTRY     - steps FORWARD. A call on day D fills at the next available open.
+  price_on_or_before  VALUATION - steps BACK.    An open position marks to the last price that exists.
+
+Using the entry primitive to value an open position marks it to a bar that may be provisional or absent,
+and lets two legs of the same book be priced on different dates. That is a real incident, not a
+hypothetical: a published figure sat 1.3 points high, in the flattering direction, for about a day.
+
+⚠️ THE VALUATION PRIMITIVE HAS TWO CALL SITES AND THEY MUST AGREE:
+      scripts/build_summary.py   - values the open leg, and publishes the date as `valued_as_of`
+      scripts/verify.py          - re-values the open leg, reading `valued_as_of` from the summary
+   Changing one without the other makes the public verifier contradict the page it verifies. That
+   already happened once, in the window between fixing the builder and fixing the verifier.
+   Closed legs use the ENTRY primitive at BOTH ends in both files - those are real fills, and forward
+   is correct for them. Only the open leg's END differs.
 """
 import json, urllib.request, urllib.error, datetime
 
@@ -119,3 +135,42 @@ def price_on_or_after(symbol, date, window=10, back=5):
     if prior:
         return prior[-1], px[prior[-1]]
     raise PriceError('no %s price near %s' % (symbol, date))
+
+
+def last_settled_date():
+    """
+    The most recent date whose bars are final everywhere: yesterday, UTC.
+
+    Today's bar is provisional by construction. Binance serves an in-progress daily candle from 00:00 UTC,
+    and Yahoo serves a partial session for gold futures within a couple of hours of the Globex open. A
+    summary built at 01:20 UTC therefore prices a day that has barely started, and the value it reads gets
+    revised later the same day - which is exactly how a published figure drifted 1.3 points in the
+    flattering direction for about a day on 2026-08-28.
+    """
+    return (datetime.datetime.now(datetime.timezone.utc).date()
+            - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+
+
+def price_on_or_before(symbol, date, back=10):
+    """
+    The last daily open at or BEFORE `date`. Returns (actual_date_used, price).
+
+    This is the VALUATION primitive, and it is deliberately the mirror of price_on_or_after, which is the
+    ENTRY primitive. The distinction matters and conflating them was the bug:
+
+      * entering a position steps FORWARD  - a call made on day D is filled at the next available open,
+        so if D has no bar you want the one after it;
+      * valuing an open position steps BACK - you mark to the last price that actually exists, and you
+        must never invent one by reaching forward into an unsettled or non-existent bar.
+
+    Using the forward primitive to value the open leg let one asset be marked on today's provisional bar
+    while another was marked on yesterday's settled bar, so the two legs of the same book were priced on
+    different dates.
+    """
+    d0 = datetime.datetime.strptime(date, '%Y-%m-%d')
+    start = (d0 - datetime.timedelta(days=back)).strftime('%Y-%m-%d')
+    px = daily_opens(symbol, start, date)
+    prior = sorted(d for d in px if d <= date)
+    if prior:
+        return prior[-1], px[prior[-1]]
+    raise PriceError('no %s price at or before %s (looked back %d days)' % (symbol, date, back))
