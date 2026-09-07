@@ -1,17 +1,17 @@
 {
-  "generated_utc": "2026-09-06",
-  "valued_as_of": "2026-09-05",
+  "generated_utc": "2026-09-07",
+  "valued_as_of": "2026-09-06",
   "inception": "2026-08-02",
   "calls_logged": 2,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
-  "days_live": 35,
+  "days_live": 36,
   "return_since_inception": 0.01920921217706595,
   "worst_drawdown_so_far": 0.0668391548081069,
   "current_drawdown": 0.04603621282408913,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
-  "days_invested": 28,
-  "pct_time_in_cash": 0.2,
+  "days_invested": 29,
+  "pct_time_in_cash": 0.19444444444444445,
   "curve_points": 25,
   "periods": [
     {
@@ -26,7 +26,7 @@
     },
     {
       "from": "2026-08-09",
-      "to": "2026-09-05",
+      "to": "2026-09-06",
       "held": {
         "GOLD": 100
       },
@@ -36,8 +36,8 @@
     }
   ],
   "unpriced_periods": [],
-  "btc_buy_hold_same_window": 0.2680060773291588,
-  "vs_btc": -0.24879686515209287,
+  "btc_buy_hold_same_window": 0.2707276638654392,
+  "vs_btc": -0.2515184516883733,
   "ahead_of_btc": false,
-  "caveat": "This record is 35 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
+  "caveat": "This record is 36 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
 }
