@@ -149,6 +149,19 @@
     see the <a href="LOG.md">log</a> and this repository's commit history.</p>
   </section>
 
+  <!-- The change history. Same problem as corrections: engine_changes has been recorded since
+       2026-08-28 and rendered nowhere, so a reader had no way to know the record spans more than one
+       version of the system. What each entry says is the MECHANISM in plain English - never the
+       parameters, which stay where they have always been: visible only to a subscriber inside the
+       indicator's own settings. -->
+  <section id="changes-section" style="display:none">
+    <h2>What has changed, and when</h2>
+    <p>The system is improved when the evidence says to improve it, and every change is written down
+    here with the date, what it does, and what it costs. Entries logged before a change stay exactly as
+    they were made — a version boundary is disclosed, never applied backwards.</p>
+    <div id="changes"></div>
+  </section>
+
   <!-- Corrections have been written into calls.json since 2026-08-28 and rendered NOWHERE, so the only
        people who ever saw one were those reading the raw file. A correction nobody can see is not a
        correction; this section is the difference between disclosing a mistake and filing it. -->
@@ -286,6 +299,36 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
       "</td><td>"+res+"</td>";
     tb.appendChild(tr);
   });
+
+  // The change history, newest first. Rendered generically, same as corrections below: an entry that
+  // carries a field this page never anticipated is still shown, rather than silently dropped.
+  var LABEL = {what_changed: "What changed", why: "Why", what_it_does_not_improve: "What it does not improve",
+               known_cost: "Known cost", drawdown_claim_scope: "Scope of the drawdown claim",
+               applies_to: "Which entries it applies to"};
+  var chg = (d.engine_changes||[]).slice().reverse();
+  if (chg.length) {
+    var cbox = document.getElementById("changes");
+    chg.forEach(function(c){
+      var card = document.createElement("div");
+      card.className = "card"; card.style.marginBottom = "12px";
+      var head = document.createElement("div");
+      head.className = "meta";
+      head.textContent = (c.date||"") + (c.from && c.to ? "   " + c.from + " → " + c.to : "");
+      card.appendChild(head);
+      Object.keys(c).forEach(function(k){
+        if (k === "date" || k === "from" || k === "to" || !c[k]) return;
+        var p = document.createElement("p");
+        p.style.margin = "10px 0 0";
+        var lab = document.createElement("strong");
+        lab.textContent = (LABEL[k] || k.replace(/_/g, " ")) + ": ";
+        p.appendChild(lab);
+        p.appendChild(document.createTextNode(String(c[k])));
+        card.appendChild(p);
+      });
+      cbox.appendChild(card);
+    });
+    document.getElementById("changes-section").style.display = "";
+  }
 
   // Corrections, newest first. Fields are rendered generically from whatever each entry carries, so a
   // future correction that explains something new is never dropped just because the page did not expect
