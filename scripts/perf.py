@@ -35,6 +35,24 @@ def turnover_cost(alloc):
     return sum((w / 100.0) * (FEE + SPREAD.get(c.upper(), DEFAULT_SPREAD)) for c, w in alloc.items())
 
 
+def pinned_getter(detail, which, exact, fallback):
+    """Price each leg at the session the LOG RECORDED for it, not at whatever today resolves to.
+
+    `detail` is an entry's own `result_period.detail` — one row per asset, carrying `start_date` and
+    `end_date`, the sessions that produced the published figure. A boundary that fell on a day an asset
+    did not trade resolves to a different session once the next one exists (see prices.price_exact), so
+    re-resolving it later silently changes a claim that was already published. Legs the entry did not
+    record fall through to `fallback`, which keeps this a no-op for older entries.
+    """
+    by_sym = {r['symbol'].upper(): r[which] for r in (detail or [])
+              if r.get('symbol') and r.get(which)}
+
+    def get(symbol, date):
+        d = by_sym.get(str(symbol).upper())
+        return exact(symbol, d) if d else fallback(symbol, date)
+    return get
+
+
 def period_return(alloc, start, end, get_price, get_end_price=None):
     """
     Return of `alloc` held from `start` to `end`, net of the round trip in and out of it.

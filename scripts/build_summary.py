@@ -47,8 +47,14 @@ def build():
             continue
         try:
             is_open = (i + 1 >= len(calls))
-            r, _ = perf.period_return(prev.get('allocation', {}), start, end, prices.price_on_or_after,
-                                       prices.price_on_or_before if is_open else None)
+            # A CLOSED period is priced at the sessions its closing entry published, so the table chains
+            # the same numbers the log claims (see perf.pinned_getter). The OPEN period has no closing
+            # entry yet and stays a live figure, marked to the last settled bar.
+            detail = None if is_open else ((calls[i + 1].get('result_period') or {}).get('detail'))
+            g0 = perf.pinned_getter(detail, 'start_date', prices.price_exact, prices.price_on_or_after)
+            g1 = (prices.price_on_or_before if is_open
+                  else perf.pinned_getter(detail, 'end_date', prices.price_exact, prices.price_on_or_after))
+            r, _ = perf.period_return(prev.get('allocation', {}), start, end, g0, g1)
         except Exception as e:
             unpriced.append({'from': start, 'to': end, 'why': str(e)})
             daily_ok = False       # a hole in the curve means the drawdown below is not the whole story

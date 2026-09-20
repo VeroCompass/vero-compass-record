@@ -153,8 +153,14 @@ def main():
         print('  Call #%s -> #%s   %s to %s' % (prev.get('n'), cur.get('n'), start, end))
         print('  Held: %s' % (', '.join('%s %s%%' % (k, v) for k, v in held.items()) or 'nothing'))
 
+        # Price this period at the sessions the ENTRY published (prices still fetched from the source;
+        # only the dates come from the log). A boundary landing on a day an asset was closed resolves
+        # elsewhere once the next session exists, and a claim already published must not move under it.
+        detail = (cur.get('result_period') or {}).get('detail')
+        get0 = perf.pinned_getter(detail, 'start_date', prices.price_exact, prices.price_on_or_after)
+        get1 = perf.pinned_getter(detail, 'end_date', prices.price_exact, prices.price_on_or_after)
         try:
-            mine, rows = perf.period_return(held, start, end, prices.price_on_or_after)
+            mine, rows = perf.period_return(held, start, end, get0, get1)
         except Exception as e:
             print('  !! could not verify: %s' % e); failed += 1; continue
 
@@ -164,6 +170,25 @@ def main():
             else:
                 print('     %-5s %5.1f%%   %.6g -> %.6g   %s'
                       % (r['symbol'], r['weight'], r['start_price'], r['end_price'], perf.fmt_pct(r['change'])))
+
+        # A substitution must never be invisible. If the same boundary resolves to different sessions
+        # today than it did when this was published, say so, and show what it would come to now.
+        if detail:
+            try:
+                live, live_rows = perf.period_return(held, start, end, prices.price_on_or_after)
+                moved = [(a, a.get('start_date'), a.get('end_date'), b.get('start_date'), b.get('end_date'))
+                         for a, b in zip(rows, live_rows)
+                         if (a.get('start_date'), a.get('end_date')) != (b.get('start_date'), b.get('end_date'))]
+                if moved:
+                    print('  NOTE: this period was published on sessions that today resolve differently —')
+                    for r, s0, e0, s1, e1 in moved:
+                        print('        %-5s published %s -> %s, today %s -> %s'
+                              % (r['symbol'], s0, e0, s1, e1))
+                    print('        On today\'s resolution the period is %s. The entry is checked against'
+                          % perf.fmt_pct(live))
+                    print('        the sessions it named, which is what it actually claimed.')
+            except Exception:
+                pass
 
         print('  Independently computed: %s' % perf.fmt_pct(mine))
         equity *= (1.0 + mine)

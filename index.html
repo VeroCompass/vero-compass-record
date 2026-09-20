@@ -149,6 +149,16 @@
     see the <a href="LOG.md">log</a> and this repository's commit history.</p>
   </section>
 
+  <!-- Corrections have been written into calls.json since 2026-08-28 and rendered NOWHERE, so the only
+       people who ever saw one were those reading the raw file. A correction nobody can see is not a
+       correction; this section is the difference between disclosing a mistake and filing it. -->
+  <section id="corrections-section" style="display:none">
+    <h2>Corrections</h2>
+    <p>When something published here turns out to be wrong, it is corrected in public and the original
+    stays where it was. A record that quietly edits its mistakes is not a record.</p>
+    <div id="corrections"></div>
+  </section>
+
   <section>
     <h2>How to run it</h2>
     <div class="card">
@@ -276,6 +286,35 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
       "</td><td>"+res+"</td>";
     tb.appendChild(tr);
   });
+
+  // Corrections, newest first. Fields are rendered generically from whatever each entry carries, so a
+  // future correction that explains something new is never dropped just because the page did not expect
+  // that key. Text is inserted with textContent, never innerHTML — the log is data, not markup.
+  var corr = (d.corrections||[]).slice().reverse();
+  if (corr.length) {
+    var box = document.getElementById("corrections");
+    corr.forEach(function(c){
+      var card = document.createElement("div");
+      card.className = "card";
+      card.style.marginBottom = "12px";
+      var head = document.createElement("div");
+      head.className = "meta";
+      head.textContent = (c.date||"") + (c.corrects ? " — corrects " + c.corrects : "");
+      card.appendChild(head);
+      Object.keys(c).forEach(function(k){
+        if (k === "date" || k === "corrects" || !c[k]) return;
+        var p = document.createElement("p");
+        p.style.margin = "10px 0 0";
+        var lab = document.createElement("strong");
+        lab.textContent = k.replace(/_/g, " ").replace(/^./, function(m){return m.toUpperCase();}) + ": ";
+        p.appendChild(lab);
+        p.appendChild(document.createTextNode(String(c[k])));
+        card.appendChild(p);
+      });
+      box.appendChild(card);
+    });
+    document.getElementById("corrections-section").style.display = "";
+  }
 }).catch(function(){
   document.getElementById("now").innerHTML='<span class="meta">Could not load calls.json.</span>';
 });

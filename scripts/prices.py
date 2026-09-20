@@ -137,6 +137,28 @@ def price_on_or_after(symbol, date, window=10, back=5):
     raise PriceError('no %s price near %s' % (symbol, date))
 
 
+def price_exact(symbol, date):
+    """The daily open ON that exact date. Raises if that session does not exist.
+
+    This exists because a boundary date and a SESSION are not the same thing, and a published claim must
+    keep reproducing. price_on_or_after answers "which session does this date resolve to, given the data
+    that exists right now" — the correct question when a call is being logged, and the wrong one when a
+    claim was published days ago: a call logged on a day an asset had not opened (gold, on a Sunday) is
+    priced on the last session that existed, and the moment the next session appears the same boundary
+    resolves somewhere else, so yesterday's honest figure stops reproducing today.
+
+    Every entry already records the session each leg actually used. Pricing a published period at those
+    sessions is not trusting the log — the PRICE is still fetched from the public source, only the DATE
+    is taken from the entry — and verify.py prints whenever today's resolution would differ, so a
+    substitution stays visible instead of quietly blessed.
+    """
+    px = daily_opens(symbol, date, date)
+    if date in px:
+        return date, px[date]
+    raise PriceError('%s has no session on %s, but an entry says it was priced there — check the entry'
+                     % (symbol, date))
+
+
 def last_settled_date():
     """
     The most recent date whose bars are final everywhere: yesterday, UTC.

@@ -113,6 +113,9 @@ def main():
     ap.add_argument('--result', default='', help='OVERRIDE the computed result. Using this marks the '
                     'entry as manually asserted rather than measured — avoid unless the computation is wrong.')
     ap.add_argument('--effective-since', default='', help='date the indicator flipped, if not today')
+    ap.add_argument('--allow-stale-boundary', action='store_true',
+                    help='log even though a held asset has no session on or after this date, so the '
+                         'period closes on an earlier bar. Disclose it in the entry if you use this.')
     ap.add_argument('--no-push', action='store_true', help='commit but do not push')
     ap.add_argument('--dry-run', action='store_true', help='show what would be written; change nothing')
     args = ap.parse_args()
@@ -150,6 +153,23 @@ def main():
                                                prices.price_on_or_after)
                 result_txt, basis = perf.fmt_pct(r), 'computed'
                 print('Computed result for the period %s -> %s: %s' % (start, this_date, result_txt))
+                # A period must CLOSE on a session at or after the call. If an asset has not opened yet
+                # (gold, on a weekend) the price primitive substitutes the last session that exists, and
+                # the moment the next one appears that boundary resolves elsewhere — so the figure
+                # published today stops being the figure the same method gives tomorrow. Logging a day
+                # later costs nothing and prices the close the way this record says it prices it: at the
+                # NEXT open. Found the hard way on 2026-09-20, logging call #3 on a Sunday.
+                stale = [row for row in (detail or [])
+                         if row.get('end_date') and row['end_date'] < this_date]
+                if stale and not args.allow_stale_boundary:
+                    die('the period cannot close cleanly on %s yet:\n%s\n'
+                        'Those assets have no session on or after that date, so the close would be priced '
+                        'on a stale bar and would not reproduce once the next session exists. Re-run on '
+                        'the next trading day. Nothing was written.\n'
+                        '(--allow-stale-boundary overrides this, and then the substitution must be '
+                        'disclosed in the entry.)'
+                        % (this_date, '\n'.join('  %-5s priced on %s' % (row['symbol'], row['end_date'])
+                                                for row in stale)))
             except prices.PriceError as e:
                 die('could not price the previous allocation (%s).\nNothing was written. Retry when the '
                     'data source is reachable, or pass --result "<x%%>" to record it as an ASSERTED '
