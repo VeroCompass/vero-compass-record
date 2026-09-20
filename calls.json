@@ -50,6 +50,40 @@
         ]
       },
       "effective_since": "2026-08-09"
+    },
+    {
+      "n": 3,
+      "state": "risk-on",
+      "allocation": {
+        "BTC": 12,
+        "ETH": 24,
+        "SOL": 16,
+        "LINK": 15,
+        "GOLD": 33
+      },
+      "logged": "2026-09-20",
+      "reason": "Bitcoin is back above its 120-day trend, so coins qualify again beside the gold hedge. LOGGED LATE - the indicator made this move on 2026-08-30 and it was not written here until today, so we count this call from today, not from then. See the correction in calls.json.",
+      "result_since_prior": "-0.7%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-08-09",
+        "to": "2026-09-20",
+        "allocation_held": {
+          "GOLD": 100
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "GOLD",
+            "weight": 100.0,
+            "start_date": "2026-08-10",
+            "end_date": "2026-09-18",
+            "start_price": 4400.0,
+            "end_price": 4381.600098,
+            "change": -0.004182
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [

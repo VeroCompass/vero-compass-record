@@ -31,3 +31,13 @@ the first live allocation call will be appended here the moment the system leave
 - **Why:** Bitcoin is still below its long-term trend, so no crypto qualifies. Gold has now passed its own trend gate, so the book moves out of cash and into the gold hedge.
 - **Result since prior entry:** +0.0%  *(computed from daily opens 2026-08-02 → 2026-08-09, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
 - **Tracked config:** Vero Compass v1.3/v1.4 (12-asset pool including gold, up to 6 held, inverse-volatility sizing, BTC-trend crash filter — crypto moves to cash while the gold hedge is exempt and may stay held). v1.4 is numerically identical to v1.3 and adds separate exit/entry alerts.
+
+---
+
+### Entry #3 — RISK-ON
+- **Logged:** 2026-09-20
+- **State:** RISK-ON
+- **Allocation:** `BTC 12% · ETH 24% · SOL 16% · LINK 15% · GOLD 33%`
+- **Why:** Bitcoin is back above its 120-day trend, so coins qualify again beside the gold hedge. LOGGED LATE - the indicator made this move on 2026-08-30 and it was not written here until today, so we count this call from today, not from then. See the correction in calls.json.
+- **Result since prior entry:** -0.7%  *(computed from daily opens 2026-08-09 → 2026-09-20, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.6 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.

@@ -2,7 +2,7 @@
   "generated_utc": "2026-09-20",
   "valued_as_of": "2026-09-19",
   "inception": "2026-08-02",
-  "calls_logged": 2,
+  "calls_logged": 3,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
   "days_live": 49,
   "return_since_inception": -0.006581795987215866,
@@ -26,12 +26,12 @@
     },
     {
       "from": "2026-08-09",
-      "to": "2026-09-19",
+      "to": "2026-09-20",
       "held": {
         "GOLD": 100
       },
       "return": -0.0065817959872159085,
-      "open_period": true,
+      "open_period": false,
       "equity_after": 0.9934182040127841
     }
   ],
