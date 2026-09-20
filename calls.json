@@ -107,6 +107,16 @@
       "what_is_actually_true": "Two things changed in v1.6, not one. Gold is now held as a permanent hedge sleeve whenever it passes its own trend gate, instead of having to win a top-6 momentum slot − so the book can hold up to 7 positions (6 coins plus gold) where before it held 6. And when the hedge is funded, the money comes from selling the weakest-ranked holdings rather than trimming every holding proportionally. Pool, base sizing (inverse-volatility), the crash filter, momentum length, trend gate and rebalance cadence are genuinely unchanged.",
       "how_it_was_found": "By reading the indicator's source after publication and confirming empirically that the book reaches 7 concurrent positions. The description had been written from research notes rather than from the code.",
       "why_we_are_telling_you": "We verify every published FIGURE against the data that produced it. This was a claim about how the mechanism works, in prose, and it went out with no such check because prose was not on the checklist. The indicator itself was correct throughout and no allocation, weight or logged call is affected − the error was in our description of it. The original wording is left in place above rather than rewritten, because a record that quietly edits its mistakes is not a record."
+    },
+    {
+      "date": "2026-09-20",
+      "corrects": "the allocation this page showed between 2026-08-31 and 2026-09-20",
+      "what_we_published": "That the book was 100% gold — the allocation logged as call #2 on 2026-08-10.",
+      "what_is_actually_true": "The tracked indicator changed allocation on 2026-08-30, out of 100% gold and into BTC, ETH, SOL and LINK alongside a gold hedge. Its alert fired on 2026-08-31 at 00:00 UTC and named the new book. Nobody wrote it down here, so for 21 days this page said 100% gold while the system held something else.",
+      "how_it_was_found": "A check of the indicator's own panel against this log on 2026-09-20. The watchdog that should have caught it had been warning every day since 2026-08-21 about an unrelated label mismatch, so the day it had something real to say looked exactly like the twenty days before it.",
+      "what_it_cost_the_record": "Measured with this repository's own method, from 2026-08-30 to the 2026-09-19 valuation, the allocation the system actually held returned +3.16% against the -2.51% of the gold the log still showed.",
+      "how_we_are_handling_it": "Call #3 is logged today and counted from today. It is NOT back-dated to 2026-08-30. This record says it never back-dates, and the only thing a live log can prove is what it said at the time, so a window it did not publish does not count for us — whichever direction that window went.",
+      "why_we_are_telling_you": "The alert worked. Delivery worked. What did not exist was the step that turns a fired alert into an entry here, and no amount of alarms fixes a missing step. The indicator's panel is now checked against this log every morning, and a difference is the only thing that raises a flag."
     }
   ]
 }
