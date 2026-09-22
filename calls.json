@@ -1,7 +1,7 @@
 {
   "product": "Vero Compass",
   "description": "Public, append-only, real-time log of every allocation call. Owned infrastructure.",
-  "tracked_config": "Vero Compass v1.6 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.",
+  "tracked_config": "Vero Compass v1.6.2 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.",
   "log_inception": "2026-08-02",
   "honesty": {
     "live_vs_backtest": "This log is the LIVE forward record from inception. Backtest is separately verifiable on the TradingView indicator.",
@@ -97,6 +97,16 @@
       "known_cost": "The benefit is concentrated in falling and choppy markets. Split by era, the new rule returned about 34% of the old one through the bull-dominated 2017-2021 stretch and about 141% through 2022-2026. If a strong alt season arrives, expect this version to lag the one it replaced. That is the trade being made deliberately, not an unexpected outcome.",
       "drawdown_claim_scope": "Lower drawdown is true from 2018 onward and strongly true after 2021. It is NOT true across the full 2017-start record on the curated pool. Any drawdown claim must name its period.",
       "applies_to": "Entries #1 and #2 were produced by v1.3/v1.4 and are unchanged. Entry #3 onward is produced by v1.6."
+    },
+    {
+      "date": "2026-09-22",
+      "from": "v1.6",
+      "to": "v1.6.2",
+      "what_changed": "Text only. An alert's Buy and Sell lines now name only coins that genuinely change hands: a coin fully used to fund the gold hedge is no longer listed as bought, and one the book held at zero is no longer listed as sold. The alert headline follows the same rule - EXIT when a real holding is sold, ENTRY when one is bought, REBALANCE when only the weights move.",
+      "why": "Under v1.6, 94 of 154 historical alerts named at least one coin that did not actually change hands. The live alert of 2026-09-21 did it too: it listed LTC as a buy and XRP as a sell, and neither was traded.",
+      "what_it_does_not_change": "When the system trades, and what it holds. Checked by comparing the indicator's complete year-by-year backtest table before and after the change: identical in every row.",
+      "known_limit": "The alert is written at the close that triggers it and the trade is sized at the next open, so in roughly 1 fill in 10 a coin sitting right at the edge of zero can differ between the two. The 'Now hold' line remains the complete instruction.",
+      "applies_to": "Everything from 2026-09-22 onward. Entries #1 to #3 are unchanged."
     }
   ],
   "corrections": [
@@ -126,6 +136,15 @@
       "how_it_was_found": "Auditing our own publication, an hour after it went out.",
       "how_we_are_handling_it": "The entry stays exactly as published - not edited, not re-dated. verify.py now checks every entry against the sessions it named, with the prices still fetched from the public source and only the dates taken from the log, and prints whenever today's resolution would differ so the substitution is visible rather than silent. add_call.py now refuses to log a call whose period cannot close on a session at or after the call date, which is what should have stopped this one.",
       "why_we_are_telling_you": "The figure did not change and nobody was misled by it. We publish it because the alternative is a record that only discloses what somebody else might have caught."
+    },
+    {
+      "date": "2026-09-22",
+      "corrects": "the engine change of 2026-08-28 (v1.3/v1.4 to v1.6): the return and drawdown figures published with it",
+      "what_we_published": "That on a survivorship-free test universe v1.6 'returns about 29% more with roughly 15 points less drawdown' than the engine it replaced, and that on our curated pool it 'roughly HALVES the return' and 'improves drawdown by 0.1 points'.",
+      "what_is_actually_true": "The system rebalances on a fixed cycle, and the day that cycle happens to start on is arbitrary. Re-running the comparison on every possible start day shows the drawdown improvement holds on all of them, typically about 12 to 13 points. The return improvement does not: on a typical start day v1.6 returns about 9% LESS than the engine it replaced, and it trails on 13 of 21. The '29% more' we published came from one of the favourable start days. The costs we disclosed on the curated pool were overstated for the same reason - typically about 0.8x the return, not half. And one line was simply wrong: on the curated pool drawdown got 0.1 points worse (39.2% to 39.3%); it did not improve.",
+      "how_it_was_found": "An audit of why the system scored better when trades were placed a day late. That traced the effect to the start-day dependence, and every figure we had published was then re-measured across all start days. None of the others was a favourable draw.",
+      "what_it_changes": "Nothing about what the system holds or when it trades. It changes what we can claim for v1.6: better protection, not better returns.",
+      "why_we_are_telling_you": "The claim that holds up is the one this product is built on - getting through the falls. The claim that did not is the one that would have sold it harder. Publishing only the first would be advertising."
     }
   ]
 }
