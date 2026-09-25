@@ -84,6 +84,81 @@
           }
         ]
       }
+    },
+    {
+      "n": 4,
+      "state": "risk-on",
+      "allocation": {
+        "ETH": 23,
+        "SOL": 16,
+        "ADA": 3,
+        "AVAX": 10,
+        "LINK": 15,
+        "GOLD": 33
+      },
+      "logged": "2026-09-25",
+      "reason": "The 21-day rebalance on 2026-09-20 moved the book: BTC left, ADA and AVAX came in, and the gold hedge stayed. These are the weights the system's alert gave on 2026-09-21. LOGGED LATE - written here on 2026-09-25 and counted from today, not from the 20th. That alert also named XRP and LTC, and neither was traded; v1.6.2 fixes that alert text.",
+      "result_since_prior": "+1.8%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-09-20",
+        "to": "2026-09-25",
+        "allocation_held": {
+          "BTC": 12,
+          "ETH": 24,
+          "SOL": 16,
+          "LINK": 15,
+          "GOLD": 33
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "BTC",
+            "weight": 12.0,
+            "start_date": "2026-09-20",
+            "end_date": "2026-09-25",
+            "start_price": 81249.99,
+            "end_price": 84410.24,
+            "change": 0.038895
+          },
+          {
+            "symbol": "ETH",
+            "weight": 24.0,
+            "start_date": "2026-09-20",
+            "end_date": "2026-09-25",
+            "start_price": 2632.7,
+            "end_price": 2688.06,
+            "change": 0.021028
+          },
+          {
+            "symbol": "SOL",
+            "weight": 16.0,
+            "start_date": "2026-09-20",
+            "end_date": "2026-09-25",
+            "start_price": 111.06,
+            "end_price": 117.04,
+            "change": 0.053845
+          },
+          {
+            "symbol": "LINK",
+            "weight": 15.0,
+            "start_date": "2026-09-20",
+            "end_date": "2026-09-25",
+            "start_price": 12.418,
+            "end_price": 13.22,
+            "change": 0.064584
+          },
+          {
+            "symbol": "GOLD",
+            "weight": 33.0,
+            "start_date": "2026-09-21",
+            "end_date": "2026-09-25",
+            "start_price": 4413.0,
+            "end_price": 4309.5,
+            "change": -0.023453
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [

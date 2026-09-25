@@ -41,3 +41,13 @@ the first live allocation call will be appended here the moment the system leave
 - **Why:** Bitcoin is back above its 120-day trend, so coins qualify again beside the gold hedge. LOGGED LATE - the indicator made this move on 2026-08-30 and it was not written here until today, so we count this call from today, not from then. See the correction in calls.json.
 - **Result since prior entry:** -0.7%  *(computed from daily opens 2026-08-09 → 2026-09-20, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
 - **Tracked config:** Vero Compass v1.6 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.
+
+---
+
+### Entry #4 — RISK-ON
+- **Logged:** 2026-09-25
+- **State:** RISK-ON
+- **Allocation:** `ETH 23% · SOL 16% · ADA 3% · AVAX 10% · LINK 15% · GOLD 33%`
+- **Why:** The 21-day rebalance on 2026-09-20 moved the book: BTC left, ADA and AVAX came in, and the gold hedge stayed. These are the weights the system's alert gave on 2026-09-21. LOGGED LATE - written here on 2026-09-25 and counted from today, not from the 20th. That alert also named XRP and LTC, and neither was traded; v1.6.2 fixes that alert text.
+- **Result since prior entry:** +1.8%  *(computed from daily opens 2026-09-20 → 2026-09-25, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.6.2 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.
