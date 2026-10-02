@@ -51,3 +51,13 @@ the first live allocation call will be appended here the moment the system leave
 - **Why:** The 21-day rebalance on 2026-09-20 moved the book: BTC left, ADA and AVAX came in, and the gold hedge stayed. These are the weights the system's alert gave on 2026-09-21. LOGGED LATE - written here on 2026-09-25 and counted from today, not from the 20th. That alert also named XRP and LTC, and neither was traded; v1.6.2 fixes that alert text.
 - **Result since prior entry:** +1.8%  *(computed from daily opens 2026-09-20 → 2026-09-25, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
 - **Tracked config:** Vero Compass v1.6.2 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.
+
+---
+
+### Entry #5 — RISK-ON
+- **Logged:** 2026-10-02
+- **State:** RISK-ON
+- **Allocation:** `ETH 26% · SOL 18% · ADA 15% · AVAX 11% · LINK 14% · LTC 16%`
+- **Why:** Gold left the book at the 2026-09-28 close: it no longer passed its own trend test. LTC is now held too: it had been selected since 2026-09-20 but was held at zero to pay for the gold hedge under the old funding rule, and with gold gone it carries its full weight. The alert's Sell line named only gold; its Now hold line, which these weights come from, includes LTC. These are the weights the system's alert gave on 2026-09-29. LOGGED LATE - written here on 2026-10-02 and counted from today, not from the 29th.
+- **Result since prior entry:** +1.3%  *(computed from daily opens 2026-09-25 → 2026-10-02, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.6.2 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held; the hedge is funded by selling the WEAKEST-ranked holdings rather than proportionally from all of them). Tracked from 2026-08-28; entries #1 and #2 were produced by v1.3/v1.4 − see engine_changes.

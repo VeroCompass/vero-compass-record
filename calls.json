@@ -159,6 +159,91 @@
           }
         ]
       }
+    },
+    {
+      "n": 5,
+      "state": "risk-on",
+      "allocation": {
+        "ETH": 26,
+        "SOL": 18,
+        "ADA": 15,
+        "AVAX": 11,
+        "LINK": 14,
+        "LTC": 16
+      },
+      "logged": "2026-10-02",
+      "reason": "Gold left the book at the 2026-09-28 close: it no longer passed its own trend test. LTC is now held too: it had been selected since 2026-09-20 but was held at zero to pay for the gold hedge under the old funding rule, and with gold gone it carries its full weight. The alert's Sell line named only gold; its Now hold line, which these weights come from, includes LTC. These are the weights the system's alert gave on 2026-09-29. LOGGED LATE - written here on 2026-10-02 and counted from today, not from the 29th.",
+      "result_since_prior": "+1.3%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-09-25",
+        "to": "2026-10-02",
+        "allocation_held": {
+          "ETH": 23,
+          "SOL": 16,
+          "ADA": 3,
+          "AVAX": 10,
+          "LINK": 15,
+          "GOLD": 33
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "ETH",
+            "weight": 23.0,
+            "start_date": "2026-09-25",
+            "end_date": "2026-10-02",
+            "start_price": 2688.06,
+            "end_price": 2706.43,
+            "change": 0.006834
+          },
+          {
+            "symbol": "SOL",
+            "weight": 16.0,
+            "start_date": "2026-09-25",
+            "end_date": "2026-10-02",
+            "start_price": 117.04,
+            "end_price": 118.41,
+            "change": 0.011705
+          },
+          {
+            "symbol": "ADA",
+            "weight": 3.0,
+            "start_date": "2026-09-25",
+            "end_date": "2026-10-02",
+            "start_price": 0.2477,
+            "end_price": 0.2463,
+            "change": -0.005652
+          },
+          {
+            "symbol": "AVAX",
+            "weight": 10.0,
+            "start_date": "2026-09-25",
+            "end_date": "2026-10-02",
+            "start_price": 10.207,
+            "end_price": 10.989,
+            "change": 0.076614
+          },
+          {
+            "symbol": "LINK",
+            "weight": 15.0,
+            "start_date": "2026-09-25",
+            "end_date": "2026-10-02",
+            "start_price": 13.22,
+            "end_price": 14.385,
+            "change": 0.088124
+          },
+          {
+            "symbol": "GOLD",
+            "weight": 33.0,
+            "start_date": "2026-09-25",
+            "end_date": "2026-10-02",
+            "start_price": 4309.5,
+            "end_price": 4204.600098,
+            "change": -0.024342
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [
