@@ -317,6 +317,16 @@
       "how_it_was_found": "An audit of why the system scored better when trades were placed a day late. That traced the effect to the start-day dependence, and every figure we had published was then re-measured across all start days. None of the others was a favourable draw.",
       "what_it_changes": "Nothing about what the system holds or when it trades. It changes what we can claim for v1.6: better protection, not better returns.",
       "why_we_are_telling_you": "The claim that holds up is the one this product is built on - getting through the falls. The claim that did not is the one that would have sold it harder. Publishing only the first would be advertising."
+    },
+    {
+      "date": "2026-10-02",
+      "corrects": "the allocation logged as call #3 on 2026-09-20, and the +1.8% shown on call #4 for the period call #3 was held",
+      "what_we_published": "Call #3 as BTC 12% · ETH 24% · SOL 16% · LINK 15% · GOLD 33%, and a result of +1.8% for holding it from 2026-09-20 to 2026-09-25.",
+      "what_is_actually_true": "Those were the weights the indicator's panel showed on 2026-09-20, not what the system had told its followers to hold. The panel recomputes its target weights every day; the system trades only when its holdings change, and followers hold what the alert said at that change. The alert for this move, sent on 2026-08-31, said: BTC 12.9% · ETH 17.6% · SOL 20.6% · LINK 18.1% · GOLD 30.8%. Same five holdings in different sizes: ETH about six points lighter, SOL and LINK three to five points heavier, gold two points lighter. Our own correction published the same day priced the missed weeks with the alert's weights; the call itself was written from the panel.",
+      "how_it_was_found": "On 2026-09-26, deciding how to log call #4, we ruled that a call records what the system instructed, not what the panel shows on a later day: logging the panel that day would have left out a position bought on the 21st. Call #3 had been logged the other way. We noted it then, and it should have been published with the v1.7 change on 2026-10-02. It was not.",
+      "what_it_cost_the_record": "Measured with this repository's own method, at the same sessions call #4's entry used, the allocation the alert gave returned +2.2% from 2026-09-20 to 2026-09-25, against the +1.8% we published. The log understated that period by 0.4 points. Carried through to the 2026-10-01 valuation, the return since inception would read +2.8% rather than +2.4%. The worst drawdown so far, 8.8%, is unchanged.",
+      "how_we_are_handling_it": "Call #3 stays exactly as logged, and every figure on this page is still computed from it, so the record keeps showing the lower number. The difference is disclosed here instead of applied, because a log that rewrites a past entry, even to correct it, no longer shows what it said at the time. Calls #4 and #5 were logged from the alert's instruction, and every call from now on is.",
+      "why_we_are_telling_you": "This error ran against us, so leaving it alone would have cost nothing in appearance. That is why it has to be published: a record that only corrects the mistakes that flatter it is choosing which mistakes you get to see."
     }
   ]
 }
