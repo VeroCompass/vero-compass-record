@@ -52,6 +52,21 @@ log itself.
 > characterised, not a surprise. If it fails to protect in the next real drawdown, that IS a falsification.
 > Full detail in `calls.json` under `engine_changes`.
 
+> **Addendum, 2026-10-02 — the tracked engine changed to v1.7.** From 2026-10-02 the tracked engine is **v1.7**:
+> the gold hedge is paid for by trimming every holding in proportion — as it was before v1.6 — while gold stays a
+> permanent hedge sleeve. The 2026-08-28 addendum above is left as written. Its figures were corrected in
+> `calls.json` on 2026-09-22; its explanation of the curated-pool cost was backwards (the cost came from holding
+> the hedge, not from how it was funded); and its prediction that v1.6 would lag in a strong alt season compared
+> v1.6 with v1.3/v1.4 and no longer describes the tracked engine. **Every band below still applies.**
+>
+> Measured for v1.7 on this document's basis — survivorship-free, gold hedge included, January 2018 to date —
+> and given as the range across every start day of the rebalancing cycle, because one run is one draw of it:
+> - compounded **49–69% a year, typically 56%** (the text below says roughly 60% — do not plan around either);
+> - worst drawdown **26–37%, typically 31%** — shallower than the 40–55% band, which stands as written;
+> - **the figures withdrawn on 2026-08-09, now measured:** about **92–93%** of days below the best balance; a
+>   longest flat stretch of typically about **15 months, and up to about two and a half years** depending on the
+>   start day; **6–16%** of one-year starting points ended lower, typically 12%.
+
 ## ⚠️ Correction, made before this record contains any live call
 An earlier version of this document quoted return and time-underwater figures that were **measured on the
 wrong basis** — a crypto-only book with the gold hedge removed, and a different configuration from the one

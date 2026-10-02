@@ -74,12 +74,13 @@
   <section>
     <h2>What it actually does for you</h2>
     <div class="stats">
-      <div class="stat"><span class="n">32.7%</span><span class="l">worst peak-to-trough drawdown, January 2018 to date, measured on a survivorship-free universe that keeps the coins which later went to zero — against <b>81.5%</b> for Bitcoin over the same window</span></div>
+      <div class="stat"><span class="n">26–37%</span><span class="l">worst peak-to-trough drawdown, January 2018 to date, across every start day of the rebalancing cycle (typically 31%), measured on a survivorship-free universe that keeps the coins which later went to zero — against <b>81.5%</b> for Bitcoin over the same window</span></div>
       <div class="stat"><span class="n">5 of 5</span><span class="l">major crashes sat out in the tested period</span></div>
       <div class="stat"><span class="n">2 eras</span><span class="l">the protective rule at its core also held up on 2011–2017 data it was never designed against</span></div>
     </div>
-    <p style="margin-top:14px" class="crash"><b>2018:</b> made +26% while Bitcoin crashed −73% &nbsp;·&nbsp;
-    <b>2022:</b> −1% while Bitcoin crashed −64% &nbsp;·&nbsp; <b>2025:</b> made +58% while Bitcoin chopped to −6%</p>
+    <p style="margin-top:14px" class="crash"><b>2018:</b> typically +19% (−16% to +40%) while Bitcoin crashed −73% &nbsp;·&nbsp;
+    <b>2022:</b> typically −4% (−7% to +4%) while Bitcoin crashed −64% &nbsp;·&nbsp; <b>2025:</b> typically +56% (+32% to +80%) while Bitcoin chopped to −6%</p>
+    <p style="font-size:13px;color:var(--mut);margin:6px 0 0">Each range covers every start day of the rebalancing cycle; the indicator on the chart shows one of them.</p>
   </section>
 
   <section>
@@ -104,18 +105,18 @@
       honest test, and it is running now.</p>
 
       <h3>It protects. It does not make you immune.</h3>
-      <p>Its worst drop was <b>32.7%</b>, peak to trough, from January 2018 to date, measured on a survivorship-free universe — one that keeps the coins which later went to zero. Bitcoin fell <b>81.5%</b> over that same window. When the core protective rule was
+      <p>Its worst drop was <b>26–37%</b> depending on the day its rebalancing cycle started — typically <b>31%</b> — peak to trough, from January 2018 to date, measured on a survivorship-free universe — one that keeps the coins which later went to zero. Bitcoin fell <b>81.5%</b> over that same window. On the chart, which starts in 2017 on the hand-picked pool, the worst drop is <b>30.5%</b>, and it came in the first week of January 2017, when the book held only Bitcoin; across start days it is 30–38%. When the core protective rule was
       run on the far more brutal 2011–2017 era, it still took roughly <strong>70%</strong> while Bitcoin took
       <strong>85%</strong>. Real protection, in a genuinely violent market. Not a shield.</p>
 
       <h3>Most of the time you will be underwater.</h3>
-      <p><strong>94%</strong> of days sit below the best balance the system has ever reached. The longest flat
-      stretch was about <strong>17 months</strong>, and roughly <strong>1 in 7</strong> one-year starting
-      points ended below where they began. This is normal for a system like this, and it is exactly where most
+      <p>About <strong>92%</strong> of days sit below the best balance the system has ever reached. The longest flat
+      stretch was typically about <strong>15 months</strong> — between 12 and 24 depending on the start day — and
+      typically <strong>1 in 10</strong> one-year starting points ended below where they began (between 1 in 18 and 1 in 7). This is normal for a system like this, and it is exactly where most
       people quit.</p>
 
       <div class="rule">
-        <p style="margin:0"><strong>One line in the sand.</strong> If a 40% drop or 17 flat months would make
+        <p style="margin:0"><strong>One line in the sand.</strong> If a drop of nearly 40%, or two and a half years without a new high, would make
         you quit, this is not for you. I would rather say that now than take your money and lose you in
         month 14.</p>
       </div>
@@ -175,7 +176,7 @@
   <section>
     <h2>How to run it</h2>
     <div class="card">
-      <p>Add the indicator to a daily chart and turn on <strong>both</strong> alerts.</p>
+      <p>Add the indicator to a daily chart and create <strong>one</strong> alert on it, set to "Any alert() function call" — its headline says EXIT or ENTRY.</p>
       <ul>
         <li><strong>Act on an EXIT alert the same day.</strong> This is the one that matters — being two days
         late on exits destroyed a large share of the system's risk-adjusted performance in testing, because
@@ -304,7 +305,9 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
   // carries a field this page never anticipated is still shown, rather than silently dropped.
   var LABEL = {what_changed: "What changed", why: "Why", what_it_does_not_improve: "What it does not improve",
                known_cost: "Known cost", drawdown_claim_scope: "Scope of the drawdown claim",
-               applies_to: "Which entries it applies to"};
+               applies_to: "Which entries it applies to", what_it_does_not_change: "What it does not change",
+               known_limit: "Known limit", what_it_costs: "What it costs",
+               correction_folded_in: "A correction folded in", also_corrected_on_the_page: "Also corrected on the page"};
   var chg = (d.engine_changes||[]).slice().reverse();
   if (chg.length) {
     var cbox = document.getElementById("changes");
