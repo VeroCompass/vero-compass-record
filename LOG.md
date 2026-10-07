@@ -1,7 +1,8 @@
 # Vero Compass — Allocation Log
 
-Append-only. Newest entries at the bottom. Times of publication are recorded server-side by GitHub in this
-repository's commit history. See [`README.md`](README.md) for the honesty rules.
+Append-only. Newest entries at the bottom. Each entry is pushed to this public repository the day it is
+logged. The commit times in this repository's history are set by our own computer; what dates an entry is
+the push, after which anyone could see and copy it. See [`README.md`](README.md) for the honesty rules.
 
 **Log inception: 2026-08-02.** From this date forward, every call is a LIVE, real-time entry. Any state
 noted as in effect *before* inception (e.g. the current cash position) is not a live claim — it is

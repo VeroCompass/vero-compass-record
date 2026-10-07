@@ -327,6 +327,24 @@
       "what_it_cost_the_record": "Measured with this repository's own method, at the same sessions call #4's entry used, the allocation the alert gave returned +2.2% from 2026-09-20 to 2026-09-25, against the +1.8% we published. The log understated that period by 0.4 points. Carried through to the 2026-10-01 valuation, the return since inception would read +2.8% rather than +2.4%. The worst drawdown so far, 8.8%, is unchanged.",
       "how_we_are_handling_it": "Call #3 stays exactly as logged, and every figure on this page is still computed from it, so the record keeps showing the lower number. The difference is disclosed here instead of applied, because a log that rewrites a past entry, even to correct it, no longer shows what it said at the time. Calls #4 and #5 were logged from the alert's instruction, and every call from now on is.",
       "why_we_are_telling_you": "This error ran against us, so leaving it alone would have cost nothing in appearance. That is why it has to be published: a record that only corrects the mistakes that flatter it is choosing which mistakes you get to see."
+    },
+    {
+      "date": "2026-10-07",
+      "corrects": "how this record described the dates of its entries: the page, README.md and LOG.md's header",
+      "what_we_published": "That GitHub stamps the time of every call and records publication times in this repository's commit history.",
+      "what_is_actually_true": "Commit times are set by our own computer when we commit. What dates an entry is its push to this public repository: from then on anyone could see and copy it, and changing the history would take a force-push, which GitHub records. Calls #2 to #5 were each pushed the day they were logged. The opening entry, #1 (dated 2026-08-02, 100% cash), went public on 2026-08-07, when this repository was created. The book was in cash until the gold call of 2026-08-09, so no figure changes. The dates themselves are unchanged.",
+      "how_it_was_found": "On 2026-10-06, reviewing how this record proves its dates, we checked every public sentence about it against GitHub's own records (its push events, its Actions runs and the date this repository was created), instead of our own commit times.",
+      "how_we_are_handling_it": "The wording is corrected on the page, in README.md and in LOG.md's header. EXPECTATIONS.md is a pre-registration and stays exactly as written; its phrase 'timestamped repository' should be read the same way.",
+      "why_we_are_telling_you": "The difference changes no number in this record, but a record that asks to be checked has to describe the check honestly."
+    },
+    {
+      "date": "2026-10-07",
+      "corrects": "the sentence on this page that called the coin pool 'a disclosed input you can change'",
+      "what_we_published": "That the coin pool is a disclosed input you can change.",
+      "what_is_actually_true": "The pool is disclosed, but it is fixed in the indicator: the same eleven coins plus gold for every user. It cannot be changed in the settings.",
+      "how_it_was_found": "On 2026-10-07 we checked each sentence of this page against the indicator's code.",
+      "how_we_are_handling_it": "The sentence now says the pool is disclosed and fixed.",
+      "why_we_are_telling_you": "No figure changes, but a page that asks to be checked has to describe the product exactly."
     }
   ]
 }

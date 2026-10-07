@@ -2,8 +2,9 @@
 
 This repository is the **canonical, public, append-only log** of every allocation call made by the
 Vero Compass system. It is owned infrastructure — not a social account, not rented land. A record that
-grows in public, one commit at a time, cannot be back-fabricated: GitHub stamps the server-side time of
-every push, and the full history is open for anyone to audit.
+grows in public cannot be quietly back-dated. Each entry is public from the day it is pushed, for anyone to
+see and copy, and rewriting the history would take a force-push, which GitHub records. Commit times are set
+by our own computer; the evidence of a date is the push.
 
 ## Don't trust this record — check it
 
@@ -34,8 +35,8 @@ taxes. Those depend on your venue and your jurisdiction, and inventing them woul
 
 ## Pre-registered expectations
 **[`EXPECTATIONS.md`](EXPECTATIONS.md)** — written *before* this log contains any live call. It states what
-the record should look like if the system works as described, **and what would falsify that claim**. It is
-committed here so it is timestamped ahead of the results it will be judged against. Read it before reading
+the record should look like if the system works as described, **and what would falsify that claim**. It was
+pushed here before the results it will be judged against, and has been public since. Read it before reading
 the log; judge the live record against those bands, not against headline backtest figures.
 
 ## How to read the log
@@ -65,7 +66,7 @@ tracked engine (for example, a future v3 once its validation is complete and it 
 
 ## How each call gets published (real time, to three places at once)
 When the system changes allocation, one action fans out to all owned channels:
-1. **This log** — `scripts/add_call.py` appends the entry and commits + pushes it (GitHub stamps the time).
+1. **This log** — `scripts/add_call.py` appends the entry, commits it and pushes it the same day.
 2. **The site** — GitHub Pages re-renders `calls.json` automatically on push.
 3. **Email** — the same entry goes to the newsletter list (see `scripts/add_call.py` notes).
 
