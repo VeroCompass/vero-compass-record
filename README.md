@@ -50,7 +50,7 @@ the log; judge the live record against those bands, not against headline backtes
    the Vero Compass indicator on TradingView and read its historical calls; no platform or trust in us
    required. **This log is the LIVE, real-time forward record** — the calls as they happen, from the log's
    inception date forward.
-2. **The pool is a disclosed input, never a claimed edge.** Vero Compass sells the *rules* (rotation +
+2. **The pool is a disclosed input, never a claimed edge.** Vero Compass is the *rules* (rotation +
    risk-parity sizing + a crash filter), not a magic coin list. A backtest run over a hand-picked list of
    coins that happened to survive is survivorship-biased and is **never** presented as a performance
    headline. **The forward log is the proof.**

@@ -91,7 +91,7 @@
   <section>
     <h2>The honest part</h2>
     <div class="card">
-      <p><em>Vero means true. So here is the whole truth, including the parts that cost me customers.</em></p>
+      <p><em>Vero means true. So here is the whole truth, including the parts that are not flattering.</em></p>
 
       <h3>One year did a lot of the work.</h3>
       <p>2021 alone produced about <strong>half</strong> of everything the backtest made. Any multi-year
@@ -117,7 +117,7 @@
 
       <div class="rule">
         <p style="margin:0"><strong>One line in the sand.</strong> If a drop of nearly 40%, or two and a half years without a new high, would make
-        you quit, this is not for you. I would rather say that now than take your money and lose you in
+        you quit, this is not for you. I would rather say that now than lose you in
         month 14.</p>
       </div>
 
@@ -153,8 +153,7 @@
   <!-- The change history. Same problem as corrections: engine_changes has been recorded since
        2026-08-28 and rendered nowhere, so a reader had no way to know the record spans more than one
        version of the system. What each entry says is the MECHANISM in plain English - never the
-       parameters, which stay where they have always been: visible only to a subscriber inside the
-       indicator's own settings. -->
+       parameters, which are not published. -->
   <section id="changes-section" style="display:none">
     <h2>What has changed, and when</h2>
     <p>The system is improved when the evidence says to improve it, and every change is written down
@@ -261,7 +260,7 @@ fetch("summary.json").then(function(r){return r.json();}).then(function(s){
   }
   h += '</table>';
   // Say how the drawdown was measured. Measuring it only on the dates calls were made would hide every
-  // dip that recovered in between — which is precisely the number a buyer needs to be told honestly.
+  // dip that recovered in between — which is precisely the number a reader needs to be told honestly.
   if (s.drawdown_basis) {
     var incomplete = s.drawdown_basis.indexOf("INCOMPLETE") === 0;
     h += '<p style="font-size:13px;margin:12px 0 0;color:var(--' + (incomplete ? 'warn' : 'mut') + ')">'

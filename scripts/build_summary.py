@@ -64,7 +64,7 @@ def build():
         legs.append({'from': start, 'to': end, 'held': prev.get('allocation', {}), 'return': r,
                      'open_period': i + 1 >= len(calls), 'equity_after': equity})
         # Fill in what happened BETWEEN the two calls. Without this, a dip that recovered before the next
-        # call never appears in the drawdown at all — and drawdown is the number this product is sold on.
+        # call never appears in the drawdown at all — and drawdown is the number this system is judged on.
         try:
             path = perf.daily_path(prev.get('allocation', {}), start, end,
                                    prices.price_on_or_after, prices.daily_opens)

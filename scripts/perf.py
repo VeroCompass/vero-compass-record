@@ -98,8 +98,8 @@ def daily_path(alloc, start, end, get_price, get_series):
 
     Why this exists: measuring drawdown only at the dates calls were made would quietly hide every dip that
     happened *between* calls — and since calls can be months apart, that would make the published drawdown
-    look far better than what a follower actually lived through. Drawdown is the number this product is
-    sold on, so it is measured every day.
+    look far better than what a follower actually lived through. Drawdown is the number this system is
+    judged on, so it is measured every day.
 
     Weights are set at entry and then drift, which is what actually happens between rebalances. The entry
     cost is paid on day one and the exit cost at the end, so the final point equals the period return.
