@@ -1,18 +1,18 @@
 {
-  "generated_utc": "2026-10-17",
-  "valued_as_of": "2026-10-16",
+  "generated_utc": "2026-10-18",
+  "valued_as_of": "2026-10-17",
   "inception": "2026-08-02",
   "calls_logged": 6,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
-  "days_live": 76,
-  "return_since_inception": -0.09192328315275589,
-  "worst_drawdown_so_far": 0.15168819411089765,
-  "current_drawdown": 0.15168819411089765,
+  "days_live": 77,
+  "return_since_inception": -0.094656594070466,
+  "worst_drawdown_so_far": 0.15424161264662378,
+  "current_drawdown": 0.15424161264662378,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
-  "days_invested": 69,
-  "pct_time_in_cash": 0.09210526315789473,
-  "curve_points": 64,
+  "days_invested": 70,
+  "pct_time_in_cash": 0.09090909090909091,
+  "curve_points": 65,
   "periods": [
     {
       "from": "2026-08-02",
@@ -77,11 +77,26 @@
       "return": -0.11362902043427196,
       "open_period": false,
       "equity_after": 0.9080767168472441
+    },
+    {
+      "from": "2026-10-17",
+      "to": "2026-10-17",
+      "held": {
+        "SOL": 21,
+        "ADA": 17,
+        "AVAX": 11,
+        "LINK": 18,
+        "LTC": 18,
+        "DOT": 15
+      },
+      "return": -0.00301,
+      "open_period": true,
+      "equity_after": 0.905343405929534
     }
   ],
   "unpriced_periods": [],
-  "btc_buy_hold_same_window": 0.3091555489055473,
-  "vs_btc": -0.4010788320583032,
+  "btc_buy_hold_same_window": 0.29912715991509575,
+  "vs_btc": -0.39378375398556176,
   "ahead_of_btc": false,
-  "caveat": "This record is 76 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
+  "caveat": "This record is 77 days old. That is far too short to judge a system whose drawdowns last months — treat these numbers as a starting point, not evidence."
 }
