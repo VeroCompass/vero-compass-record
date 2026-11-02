@@ -72,3 +72,13 @@ the first live allocation call will be appended here the moment the system leave
 - **Why:** At the 2026-10-11 close the system sold ETH and bought DOT; the other five holdings stayed. These are the weights the system's alert gave on 2026-10-12. LOGGED LATE - written here on 2026-10-17 and counted from today, not from the 12th.
 - **Result since prior entry:** -11.4%  *(computed from daily opens 2026-10-02 → 2026-10-17, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
 - **Tracked config:** Vero Compass v1.7 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing across every holding, so the hedge is paid for proportionally by all of them, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held). Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) − see engine_changes.
+
+---
+
+### Entry #7 — RISK-ON
+- **Logged:** 2026-11-02
+- **State:** RISK-ON
+- **Allocation:** `SOL 41% · AVAX 26% · LTC 33%`
+- **Why:** At the 2026-10-29 close the system sold ADA, LINK and DOT; SOL, AVAX and LTC stayed. These are the weights the system's alert gave on 2026-10-30. LOGGED LATE - written here on 2026-11-02 and counted from today, not from the 30th: our daily check missed the alert.
+- **Result since prior entry:** -11.7%  *(computed from daily opens 2026-10-17 → 2026-11-02, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.7 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing across every holding, so the hedge is paid for proportionally by all of them, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held). Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) − see engine_changes.

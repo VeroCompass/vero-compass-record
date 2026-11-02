@@ -329,6 +329,88 @@
           }
         ]
       }
+    },
+    {
+      "n": 7,
+      "state": "risk-on",
+      "allocation": {
+        "SOL": 41,
+        "AVAX": 26,
+        "LTC": 33
+      },
+      "logged": "2026-11-02",
+      "reason": "At the 2026-10-29 close the system sold ADA, LINK and DOT; SOL, AVAX and LTC stayed. These are the weights the system's alert gave on 2026-10-30. LOGGED LATE - written here on 2026-11-02 and counted from today, not from the 30th: our daily check missed the alert.",
+      "result_since_prior": "-11.7%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-10-17",
+        "to": "2026-11-02",
+        "allocation_held": {
+          "SOL": 21,
+          "ADA": 17,
+          "AVAX": 11,
+          "LINK": 18,
+          "LTC": 18,
+          "DOT": 15
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "SOL",
+            "weight": 21.0,
+            "start_date": "2026-10-17",
+            "end_date": "2026-11-02",
+            "start_price": 104.45,
+            "end_price": 94.54,
+            "change": -0.094878
+          },
+          {
+            "symbol": "ADA",
+            "weight": 17.0,
+            "start_date": "2026-10-17",
+            "end_date": "2026-11-02",
+            "start_price": 0.2257,
+            "end_price": 0.1931,
+            "change": -0.14444
+          },
+          {
+            "symbol": "AVAX",
+            "weight": 11.0,
+            "start_date": "2026-10-17",
+            "end_date": "2026-11-02",
+            "start_price": 9.958,
+            "end_price": 8.697,
+            "change": -0.126632
+          },
+          {
+            "symbol": "LINK",
+            "weight": 18.0,
+            "start_date": "2026-10-17",
+            "end_date": "2026-11-02",
+            "start_price": 12.35,
+            "end_price": 11.392,
+            "change": -0.077571
+          },
+          {
+            "symbol": "LTC",
+            "weight": 18.0,
+            "start_date": "2026-10-17",
+            "end_date": "2026-11-02",
+            "start_price": 59.74,
+            "end_price": 55.63,
+            "change": -0.068798
+          },
+          {
+            "symbol": "DOT",
+            "weight": 15.0,
+            "start_date": "2026-10-17",
+            "end_date": "2026-11-02",
+            "start_price": 1.185,
+            "end_price": 0.953,
+            "change": -0.195781
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [
