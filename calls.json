@@ -411,6 +411,60 @@
           }
         ]
       }
+    },
+    {
+      "n": 8,
+      "state": "risk-on",
+      "allocation": {
+        "BTC": 31,
+        "BNB": 23,
+        "AVAX": 14,
+        "LINK": 14,
+        "LTC": 18
+      },
+      "logged": "2026-11-02",
+      "reason": "At the 2026-11-01 close the system sold SOL and bought BTC, BNB and LINK; AVAX and LTC stayed. These are the weights the system's alert gave on 2026-11-02.",
+      "result_since_prior": "-0.3%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-11-02",
+        "to": "2026-11-02",
+        "allocation_held": {
+          "SOL": 41,
+          "AVAX": 26,
+          "LTC": 33
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "SOL",
+            "weight": 41.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-02",
+            "start_price": 94.54,
+            "end_price": 94.54,
+            "change": 0.0
+          },
+          {
+            "symbol": "AVAX",
+            "weight": 26.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-02",
+            "start_price": 8.697,
+            "end_price": 8.697,
+            "change": 0.0
+          },
+          {
+            "symbol": "LTC",
+            "weight": 33.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-02",
+            "start_price": 55.63,
+            "end_price": 55.63,
+            "change": 0.0
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [

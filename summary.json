@@ -2,17 +2,17 @@
   "generated_utc": "2026-11-02",
   "valued_as_of": "2026-11-01",
   "inception": "2026-08-02",
-  "calls_logged": 7,
+  "calls_logged": 8,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
   "days_live": 92,
-  "return_since_inception": -0.19828820912621947,
+  "return_since_inception": -0.20061638016691696,
   "worst_drawdown_so_far": 0.2696122930836391,
-  "current_drawdown": 0.2510527310071653,
+  "current_drawdown": 0.2532276738763205,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
   "days_invested": 85,
   "pct_time_in_cash": 0.07608695652173914,
-  "curve_points": 81,
+  "curve_points": 82,
   "periods": [
     {
       "from": "2026-08-02",
@@ -92,10 +92,22 @@
       "return": -0.11713209247645119,
       "open_period": false,
       "equity_after": 0.8017117908737805
+    },
+    {
+      "from": "2026-11-02",
+      "to": "2026-11-02",
+      "held": {
+        "SOL": 41,
+        "AVAX": 26,
+        "LTC": 33
+      },
+      "return": -0.002904,
+      "open_period": false,
+      "equity_after": 0.799383619833083
     }
   ],
   "unpriced_periods": [],
   "btc_buy_hold_same_window": 0.2349174236135596,
-  "vs_btc": -0.4332056327397791,
+  "vs_btc": -0.43553380378047657,
   "ahead_of_btc": false
 }
