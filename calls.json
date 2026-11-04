@@ -465,6 +465,79 @@
           }
         ]
       }
+    },
+    {
+      "n": 9,
+      "state": "risk-on",
+      "allocation": {
+        "BTC": 37,
+        "BNB": 26,
+        "AVAX": 16,
+        "LTC": 21
+      },
+      "logged": "2026-11-04",
+      "reason": "At the 2026-11-03 close the system sold LINK; BTC, BNB, AVAX and LTC stayed. These are the weights the system's alert gave on 2026-11-04 (36.7%, 26.7%, 15.8%, 20.8%), in whole percents that sum to 100.",
+      "result_since_prior": "-2.3%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-11-02",
+        "to": "2026-11-04",
+        "allocation_held": {
+          "BTC": 31,
+          "BNB": 23,
+          "AVAX": 14,
+          "LINK": 14,
+          "LTC": 18
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "BTC",
+            "weight": 31.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-04",
+            "start_price": 78354.01,
+            "end_price": 77453.85,
+            "change": -0.011488
+          },
+          {
+            "symbol": "BNB",
+            "weight": 23.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-04",
+            "start_price": 712.7,
+            "end_price": 698.15,
+            "change": -0.020415
+          },
+          {
+            "symbol": "AVAX",
+            "weight": 14.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-04",
+            "start_price": 8.697,
+            "end_price": 8.519,
+            "change": -0.020467
+          },
+          {
+            "symbol": "LINK",
+            "weight": 14.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-04",
+            "start_price": 11.392,
+            "end_price": 11.028,
+            "change": -0.031952
+          },
+          {
+            "symbol": "LTC",
+            "weight": 18.0,
+            "start_date": "2026-11-02",
+            "end_date": "2026-11-04",
+            "start_price": 55.63,
+            "end_price": 54.3,
+            "change": -0.023908
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [
