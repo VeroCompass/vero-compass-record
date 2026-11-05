@@ -1,7 +1,7 @@
 {
   "product": "Vero Compass",
   "description": "Public, append-only, real-time log of every allocation call. Owned infrastructure.",
-  "tracked_config": "Vero Compass v1.7 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing across every holding, so the hedge is paid for proportionally by all of them, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held). Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) − see engine_changes.",
+  "tracked_config": "Vero Compass v1.7: a fixed pool of major coins plus gold. It holds the strongest coins, holds gold whenever gold's own trend is up, sizes every holding by its volatility, and moves crypto to cash (gold may stay held) when Bitcoin's long-term trend breaks. Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) - see engine_changes. From 2026-11-05 this description carries no settings; earlier entries keep the wording they were logged with.",
   "log_inception": "2026-08-02",
   "honesty": {
     "live_vs_backtest": "This log is the LIVE forward record from inception. Backtest is separately verifiable on the TradingView indicator.",

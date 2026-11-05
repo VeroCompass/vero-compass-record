@@ -200,20 +200,6 @@
     </ul>
   </section>
 
-  <section>
-    <h2>Get every call by email</h2>
-    <div class="card">
-      <p>Social accounts can vanish. An email list can't. Get each allocation call the moment it's logged.</p>
-      <!-- TIER 3: connect this form to your own list service (Buttondown / ConvertKit / Formspree / Substack).
-           Set action= to your form endpoint and method=post, then remove the onsubmit guard. -->
-      <form class="signup" action="REPLACE_WITH_YOUR_EMAIL_FORM_ENDPOINT" method="post" onsubmit="return notWired(event)">
-        <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address">
-        <button class="btn" type="submit">Notify me</button>
-      </form>
-      <p style="font-size:12px;color:var(--mut);margin:8px 0 0">No spam — only allocation calls. Unsubscribe anytime.</p>
-    </div>
-  </section>
-
   <div class="foot">
     <p><strong>Backtest vs live:</strong> historical performance shown by the indicator is a backtest and is
     independently verifiable there; this log is the live forward record from its inception date.
@@ -228,7 +214,6 @@
 </div>
 
 <script>
-function notWired(e){ e.preventDefault(); alert("Email capture isn't connected yet — set the form action to your list service."); return false; }
 function fmtAlloc(a){
   if(!a) return "—";
   var ks = Object.keys(a);

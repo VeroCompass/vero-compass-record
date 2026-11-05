@@ -64,14 +64,15 @@ The officially tracked system is the **locked, live configuration** (Vero Compas
 tracked engine (for example, a future v3 once its validation is complete and it is formally locked) will be
 **announced in the log itself** — no engine is ever switched mid-record silently.
 
-## How each call gets published (real time, to three places at once)
-When the system changes allocation, one action fans out to all owned channels:
+## How each call gets published
+When the system changes allocation:
 1. **This log** — `scripts/add_call.py` appends the entry, commits it and pushes it the same day.
 2. **The site** — GitHub Pages re-renders `calls.json` automatically on push.
-3. **Email** — the same entry goes to the newsletter list (see `scripts/add_call.py` notes).
+3. **Email** — planned: once a newsletter list exists, the same entry will go to it. There is no list yet.
 
-Ideally `add_call.py` is triggered off the indicator's TradingView alert, so the push time is genuine
-(machine-set at the moment of the call), not typed by hand.
+Since 2026-11-04 a scheduled logger reads the indicator's own TradingView alert log several times a day and
+runs `add_call.py` when the alert has fired, so calls are logged without anyone typing them. If anything in the
+alert looks wrong, it logs nothing and waits for a person.
 
 ---
 *Vero Compass is a rules-based crypto allocation research system. This repository is its public record.*
