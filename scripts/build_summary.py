@@ -102,6 +102,9 @@ def build():
         'days_invested': max(days - cash_days, 0),
         'pct_time_in_cash': (cash_days / days) if days else None,
         'curve_points': len(curve),
+        # The daily path itself, so the page can draw it: the same points the drawdown above is measured on.
+        # Display only; no figure in this file is computed from it a second time.
+        'curve': [[d, round(v, 6)] for d, v in curve],
         'periods': legs,
         'unpriced_periods': unpriced,
     })

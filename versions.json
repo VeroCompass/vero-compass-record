@@ -1,0 +1,33 @@
+{
+  "about": "Append-only. One entry per version of the system that has made this record's official calls, oldest first. A new version is added the day it starts making the calls; no entry is ever edited or removed. 'from' is the day the version took over the official calls; 'first_call' is the number of the first call it made. A version whose rules did not change ('rules_changed': false) only changed how the alerts are worded. Calls are never re-labelled: each one keeps the version that made it. Each line summarises the matching entry of calls.json's engine_changes, which carries the full note.",
+  "versions": [
+    {
+      "version": "v1.3 / v1.4",
+      "from": "2026-08-02",
+      "first_call": 1,
+      "rules_changed": true,
+      "what_changed": "The version running when this record began. v1.4 makes the same calls as v1.3 and adds separate alerts for exits and for entries."
+    },
+    {
+      "version": "v1.6",
+      "from": "2026-08-28",
+      "first_call": 3,
+      "rules_changed": true,
+      "what_changed": "Gold became a standing hedge, held beside the coins whenever it passes its own trend test instead of having to win a coin's place; and the money for it came from selling the weakest-ranked coins first, instead of trimming every holding."
+    },
+    {
+      "version": "v1.6.2",
+      "from": "2026-09-22",
+      "first_call": 4,
+      "rules_changed": false,
+      "what_changed": "Alert wording only: the buy and sell lines name only coins that really change hands. What the system holds, and when it trades, did not change."
+    },
+    {
+      "version": "v1.7",
+      "from": "2026-10-02",
+      "first_call": 6,
+      "rules_changed": true,
+      "what_changed": "Changed back: the gold hedge is paid for by trimming every holding a little, instead of selling the weakest coins first."
+    }
+  ]
+}

@@ -51,6 +51,14 @@
   .rule{border-left:3px solid var(--acc);padding-left:14px;margin:16px 0}
   .crash{font-size:14px;color:var(--mut);margin:4px 0}
   .crash b{color:var(--tx)}
+  .chart svg{display:block;width:100%;height:auto}
+  .chart .axis{fill:var(--mut);font-size:11px}
+  .vlist{margin:12px 0 0;padding:0;list-style:none;font-size:13px}
+  .vlist li{margin:8px 0;display:flex;flex-wrap:wrap;column-gap:10px;row-gap:2px;align-items:baseline}
+  .vlist .vt{flex:1 1 260px}
+  .vlist .sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;transform:translateY(2px)}
+  .vlist .vn{font-weight:600;white-space:nowrap}
+  .vlist .vd{color:var(--mut);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -142,9 +150,13 @@
     <em>continuously, in public, in real time</em>, on infrastructure I own — witnessed forming, not posted
     after the fact. Every call is pushed here the day it is logged, where anyone can see and copy it. Nothing here is back-dated or edited,
     and a wrong call stays in the record permanently.</p>
+    <!-- The version timeline (versions.json, append-only). Each call keeps the version that made it; a band
+         under the curve shows which version was making the calls when. No per-version figures: a few weeks
+         each is noise, and a figure per version would read as changing the rules after bad weeks. -->
+    <div class="card chart" id="timeline" style="margin-bottom:14px"><span class="meta">Loading the record's path…</span></div>
     <div class="card" style="overflow-x:auto">
-      <table id="log"><thead><tr><th>#</th><th>Logged</th><th>State</th><th>Allocation</th><th>Result since prior</th></tr></thead>
-      <tbody><tr><td colspan="5" style="color:var(--mut)">Loading…</td></tr></tbody></table>
+      <table id="log"><thead><tr><th>#</th><th>Logged</th><th>State</th><th>Allocation</th><th>Result since prior</th><th>Made by</th></tr></thead>
+      <tbody><tr><td colspan="6" style="color:var(--mut)">Loading…</td></tr></tbody></table>
     </div>
     <p style="font-size:13px;color:var(--mut);margin-top:10px">Full history:
     see the <a href="LOG.md">log</a> and this repository's commit history.</p>
@@ -283,9 +295,10 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
       res += ' <span class="warn" title="Entered by hand, not measured from prices.">⚠ manually entered</span>';
     }
     tr.innerHTML = "<td>"+c.n+"</td><td>"+(c.logged||"")+"</td><td>"+st+"</td><td>"+fmtAlloc(c.allocation)+
-      "</td><td>"+res+"</td>";
+      "</td><td>"+res+"</td><td class=\"made-by\" data-n=\""+c.n+"\">—</td>";
     tb.appendChild(tr);
   });
+  if (typeof fillMadeBy === "function") fillMadeBy();
 
   // The change history, newest first. Rendered generically, same as corrections below: an entry that
   // carries a field this page never anticipated is still shown, rather than silently dropped.
@@ -349,6 +362,134 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
   }
 }).catch(function(){
   document.getElementById("now").innerHTML='<span class="meta">Could not load calls.json.</span>';
+});
+
+// THE VERSION TIMELINE. versions.json is append-only: one entry per version that made this record's calls.
+// A call is made by the latest version whose rules changed and whose first_call is at or before it. Nothing
+// here computes a figure: the path is summary.json's own daily curve, and no version gets a return of its own.
+var RULES = null;
+function madeBy(n){
+  var m = null;
+  (RULES||[]).forEach(function(v){ if (v.first_call <= n) m = v; });
+  return m;
+}
+function fillMadeBy(){
+  if (!RULES) return;
+  document.querySelectorAll("td.made-by").forEach(function(td){
+    var v = madeBy(Number(td.getAttribute("data-n")));
+    td.textContent = v ? "made by " + v.version : "—";
+  });
+}
+var SVGNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, text){
+  var e = document.createElementNS(SVGNS, tag);
+  Object.keys(attrs||{}).forEach(function(k){ e.setAttribute(k, attrs[k]); });
+  if (text != null) e.textContent = text;
+  return e;
+}
+var BAND = ["#5b8def", "#4bb3a7", "#d9a441", "#b77fd6", "#e07a5f", "#7fb069"];
+Promise.all([
+  fetch("summary.json").then(function(r){return r.json();}),
+  fetch("calls.json").then(function(r){return r.json();}),
+  fetch("versions.json").then(function(r){return r.json();})
+]).then(function(res){
+  var s = res[0], calls = res[1].calls || [], vers = res[2].versions || [];
+  RULES = vers.filter(function(v){ return v.rules_changed !== false; });
+  fillMadeBy();
+  setTimeout(fillMadeBy, 0);                       // in case the log table is built after this
+
+  var box = document.getElementById("timeline");
+  box.innerHTML = "";
+  var h = document.createElement("div");
+  h.className = "meta";
+  h.textContent = "The record's path since " + (s.inception || "inception") + ", the calls on it, and the version making the calls";
+  box.appendChild(h);
+
+  var byDay = {};
+  (s.curve || []).forEach(function(p){ byDay[p[0]] = p[1]; });
+  var days = Object.keys(byDay).sort();
+  // drawn at the card's own width (not scaled down), so the labels stay readable on a phone
+  var W = Math.max(300, Math.min(800, (box.clientWidth || 800) - 40)), H = 250, L = 46, R = 12, T = 22, CB = 168, S0 = 184, S1 = 208;
+  var svg = el("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": "The record's daily path with a band per system version"});
+  if (days.length >= 2) {
+    var t = function(d){ return Date.parse(d + "T00:00:00Z"); };
+    var t0 = t(days[0]), t1 = t(days[days.length - 1]);
+    var X = function(d){ return L + (W - L - R) * (t(d) - t0) / Math.max(1, t1 - t0); };
+    var vals = days.map(function(d){ return byDay[d] - 1; });
+    var lo = Math.min(0, Math.min.apply(null, vals)), hi = Math.max(0, Math.max.apply(null, vals));
+    var pad = (hi - lo) * 0.08 || 0.01; lo -= pad; hi += pad;
+    var Y = function(v){ return T + (CB - T) * (hi - v) / (hi - lo); };
+    // the start line, and the lowest and highest points, labelled with the record's own figures
+    svg.appendChild(el("line", {x1: L, x2: W - R, y1: Y(0), y2: Y(0), stroke: "var(--line)", "stroke-dasharray": "3 3"}));
+    svg.appendChild(el("text", {x: L - 6, y: Y(0) + 4, "text-anchor": "end", "class": "axis"}, "0%"));
+    [Math.min.apply(null, vals), Math.max.apply(null, vals)].forEach(function(v){
+      if (Math.abs(Y(v) - Y(0)) > 12) svg.appendChild(el("text", {x: L - 6, y: Y(v) + 4, "text-anchor": "end", "class": "axis"}, pct(v)));
+    });
+    svg.appendChild(el("polyline", {points: days.map(function(d){ return X(d).toFixed(1) + "," + Y(byDay[d] - 1).toFixed(1); }).join(" "),
+                                    fill: "none", stroke: "var(--acc)", "stroke-width": 2, "stroke-linejoin": "round"}));
+    // each call, where the record counts it from
+    calls.forEach(function(c){
+      var d = c.effective_since && c.effective_since >= days[0] ? c.effective_since : c.logged;
+      if (!d || d < days[0] || d > days[days.length - 1]) d = d && d < days[0] ? days[0] : d;
+      var k = days.filter(function(x){ return x <= d; }).pop();
+      if (!k) return;
+      var g = el("g", {});
+      var v = madeBy(c.n);
+      g.appendChild(el("title", {}, "Call #" + c.n + ", logged " + c.logged + (v ? ", made by " + v.version : "")));
+      g.appendChild(el("circle", {cx: X(k), cy: Y(byDay[k] - 1), r: 4, fill: "var(--card)", stroke: "var(--tx)", "stroke-width": 1.5}));
+      g.appendChild(el("text", {x: X(k), y: Y(byDay[k] - 1) - 8, "text-anchor": "middle", "class": "axis"}, "#" + c.n));
+      svg.appendChild(g);
+    });
+    // the version strip: one band per version whose rules changed; a wording-only release is a thin mark
+    RULES.forEach(function(v, i){
+      var a = v.from < days[0] ? days[0] : v.from;
+      var nxt = RULES[i + 1] ? RULES[i + 1].from : null;
+      var b = nxt && nxt < days[days.length - 1] ? nxt : days[days.length - 1];
+      if (a > days[days.length - 1]) return;
+      var g = el("g", {});
+      g.appendChild(el("title", {}, v.version + ", from " + v.from + ": " + v.what_changed));
+      g.appendChild(el("rect", {x: X(a), y: S0, width: Math.max(2, X(b) - X(a)), height: S1 - S0, rx: 3, fill: BAND[i % BAND.length], opacity: 0.85}));
+      if (X(b) - X(a) > 44) g.appendChild(el("text", {x: (X(a) + X(b)) / 2, y: S0 + 16, "text-anchor": "middle", fill: "#0b0e12", "font-size": 12, "font-weight": 600}, v.version));
+      svg.appendChild(g);
+    });
+    vers.filter(function(v){ return v.rules_changed === false; }).forEach(function(v){
+      if (v.from < days[0] || v.from > days[days.length - 1]) return;
+      var g = el("g", {});
+      g.appendChild(el("title", {}, v.version + ", from " + v.from + ": " + v.what_changed));
+      g.appendChild(el("line", {x1: X(v.from), x2: X(v.from), y1: S0 - 4, y2: S1 + 4, stroke: "var(--tx)", "stroke-width": 1.5, "stroke-dasharray": "2 2"}));
+      svg.appendChild(g);
+    });
+    svg.appendChild(el("text", {x: L, y: H - 12, "class": "axis"}, days[0]));
+    svg.appendChild(el("text", {x: W - R, y: H - 12, "text-anchor": "end", "class": "axis"}, days[days.length - 1]));
+    box.appendChild(svg);
+  } else {
+    var m = document.createElement("p");
+    m.className = "meta"; m.textContent = "The daily path will appear after the next refresh.";
+    box.appendChild(m);
+  }
+  // one line per version, in plain words; no figures
+  var ul = document.createElement("ul");
+  ul.className = "vlist";
+  vers.forEach(function(v){
+    var li = document.createElement("li");
+    var sw = document.createElement("span");
+    sw.className = "sw";
+    var i = RULES.indexOf(v);
+    if (i >= 0) sw.style.background = BAND[i % BAND.length];
+    else { sw.style.border = "1.5px dashed var(--tx)"; }
+    var n = document.createElement("span"); n.className = "vn"; n.textContent = v.version;
+    var d = document.createElement("span"); d.className = "vd"; d.textContent = "from " + v.from;
+    var w = document.createElement("span"); w.className = "vt"; w.textContent = v.what_changed;
+    li.appendChild(sw); li.appendChild(n); li.appendChild(d); li.appendChild(w);
+    ul.appendChild(li);
+  });
+  box.appendChild(ul);
+  var note = document.createElement("p");
+  note.style.cssText = "font-size:13px;color:var(--mut);margin:12px 0 0";
+  note.textContent = "The chart on TradingView shows the current version's rules over all of history, while this page keeps every call as it was made, by the version that made it.";
+  box.appendChild(note);
+}).catch(function(){
+  document.getElementById("timeline").innerHTML = '<span class="meta">Could not load the version timeline.</span>';
 });
 </script>
 </body>
