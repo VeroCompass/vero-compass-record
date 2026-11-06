@@ -538,6 +538,67 @@
           }
         ]
       }
+    },
+    {
+      "n": 10,
+      "state": "risk-on",
+      "allocation": {
+        "BTC": 54,
+        "BNB": 46
+      },
+      "logged": "2026-11-06",
+      "reason": "At the 2026-11-05 close the system sold AVAX and LTC; BTC and BNB stayed. These are the weights the system's alert gave on 2026-11-06 (53.7%, 46.3%), in whole percents that sum to 100. Logged automatically by the call logger.",
+      "result_since_prior": "-2.9%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-11-04",
+        "to": "2026-11-06",
+        "allocation_held": {
+          "BTC": 37,
+          "BNB": 26,
+          "AVAX": 16,
+          "LTC": 21
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "BTC",
+            "weight": 37.0,
+            "start_date": "2026-11-04",
+            "end_date": "2026-11-06",
+            "start_price": 77453.85,
+            "end_price": 76088.01,
+            "change": -0.017634
+          },
+          {
+            "symbol": "BNB",
+            "weight": 26.0,
+            "start_date": "2026-11-04",
+            "end_date": "2026-11-06",
+            "start_price": 698.15,
+            "end_price": 689.73,
+            "change": -0.01206
+          },
+          {
+            "symbol": "AVAX",
+            "weight": 16.0,
+            "start_date": "2026-11-04",
+            "end_date": "2026-11-06",
+            "start_price": 8.519,
+            "end_price": 8.175,
+            "change": -0.04038
+          },
+          {
+            "symbol": "LTC",
+            "weight": 21.0,
+            "start_date": "2026-11-04",
+            "end_date": "2026-11-06",
+            "start_price": 54.3,
+            "end_price": 51.62,
+            "change": -0.049355
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [

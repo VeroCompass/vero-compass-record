@@ -102,3 +102,13 @@ the first live allocation call will be appended here the moment the system leave
 - **Why:** At the 2026-11-03 close the system sold LINK; BTC, BNB, AVAX and LTC stayed. These are the weights the system's alert gave on 2026-11-04 (36.7%, 26.7%, 15.8%, 20.8%), in whole percents that sum to 100.
 - **Result since prior entry:** -2.3%  *(computed from daily opens 2026-11-02 → 2026-11-04, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
 - **Tracked config:** Vero Compass v1.7 (12-asset pool including gold, up to 6 coins held, plus gold as a permanent hedge sleeve whenever it passes its own trend gate (so up to 7 positions), inverse-volatility sizing across every holding, so the hedge is paid for proportionally by all of them, BTC-trend crash filter − crypto moves to cash while the gold hedge is exempt and may stay held). Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) − see engine_changes.
+
+---
+
+### Entry #10 — RISK-ON
+- **Logged:** 2026-11-06
+- **State:** RISK-ON
+- **Allocation:** `BTC 54% · BNB 46%`
+- **Why:** At the 2026-11-05 close the system sold AVAX and LTC; BTC and BNB stayed. These are the weights the system's alert gave on 2026-11-06 (53.7%, 46.3%), in whole percents that sum to 100. Logged automatically by the call logger.
+- **Result since prior entry:** -2.9%  *(computed from daily opens 2026-11-04 → 2026-11-06, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.7: a fixed pool of major coins plus gold. It holds the strongest coins, holds gold whenever gold's own trend is up, sizes every holding by its volatility, and moves crypto to cash (gold may stay held) when Bitcoin's long-term trend breaks. Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) - see engine_changes. From 2026-11-05 this description carries no settings; earlier entries keep the wording they were logged with.
