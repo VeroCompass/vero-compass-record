@@ -1,18 +1,18 @@
 {
-  "generated_utc": "2026-11-06",
-  "valued_as_of": "2026-11-05",
+  "generated_utc": "2026-11-07",
+  "valued_as_of": "2026-11-06",
   "inception": "2026-08-02",
   "calls_logged": 10,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
-  "days_live": 96,
-  "return_since_inception": -0.24156592384643105,
-  "worst_drawdown_so_far": 0.2914821304708143,
-  "current_drawdown": 0.2914821304708143,
+  "days_live": 97,
+  "return_since_inception": -0.24352571749921192,
+  "worst_drawdown_so_far": 0.2933129406456777,
+  "current_drawdown": 0.2933129406456777,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
-  "days_invested": 89,
-  "pct_time_in_cash": 0.07291666666666667,
-  "curve_points": 88,
+  "days_invested": 90,
+  "pct_time_in_cash": 0.07216494845360824,
+  "curve_points": 89,
   "curve": [
     [
       "2026-08-02",
@@ -365,6 +365,10 @@
     [
       "2026-11-06",
       0.758434
+    ],
+    [
+      "2026-11-06",
+      0.756474
     ]
   ],
   "periods": [
@@ -485,10 +489,21 @@
       "return": -0.029201878768850557,
       "open_period": false,
       "equity_after": 0.758434076153569
+    },
+    {
+      "from": "2026-11-06",
+      "to": "2026-11-06",
+      "held": {
+        "BTC": 54,
+        "BNB": 46
+      },
+      "return": -0.0025840000000000004,
+      "open_period": true,
+      "equity_after": 0.7564742825007881
     }
   ],
   "unpriced_periods": [],
-  "btc_buy_hold_same_window": 0.28142841111587735,
-  "vs_btc": -0.5229943349623084,
+  "btc_buy_hold_same_window": 0.21113641120819926,
+  "vs_btc": -0.4546621287074112,
   "ahead_of_btc": false
 }
