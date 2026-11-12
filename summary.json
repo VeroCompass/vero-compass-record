@@ -1,18 +1,18 @@
 {
-  "generated_utc": "2026-11-11",
-  "valued_as_of": "2026-11-10",
+  "generated_utc": "2026-11-12",
+  "valued_as_of": "2026-11-11",
   "inception": "2026-08-02",
   "calls_logged": 10,
   "note": "Every figure here is computed from calls.json and public prices by scripts/build_summary.py. Nothing on this page is hand-written.",
-  "days_live": 101,
-  "return_since_inception": -0.24653917047366924,
-  "worst_drawdown_so_far": 0.3007489230005536,
-  "current_drawdown": 0.296128063737479,
+  "days_live": 102,
+  "return_since_inception": -0.2604856610166907,
+  "worst_drawdown_so_far": 0.30915666843449385,
+  "current_drawdown": 0.30915666843449385,
   "drawdown_basis": "daily — every day between calls is measured",
   "days_in_cash": 7,
-  "days_invested": 94,
-  "pct_time_in_cash": 0.06930693069306931,
-  "curve_points": 93,
+  "days_invested": 95,
+  "pct_time_in_cash": 0.06862745098039216,
+  "curve_points": 94,
   "curve": [
     [
       "2026-08-02",
@@ -368,23 +368,27 @@
     ],
     [
       "2026-11-06",
-      0.757445
+      0.757408
     ],
     [
       "2026-11-07",
-      0.758124
+      0.758087
     ],
     [
       "2026-11-08",
-      0.759529
+      0.759491
     ],
     [
       "2026-11-09",
-      0.748514
+      0.748478
     ],
     [
       "2026-11-10",
-      0.753461
+      0.754399
+    ],
+    [
+      "2026-11-11",
+      0.739514
     ]
   ],
   "periods": [
@@ -508,18 +512,18 @@
     },
     {
       "from": "2026-11-06",
-      "to": "2026-11-10",
+      "to": "2026-11-11",
       "held": {
         "BTC": 54,
         "BNB": 46
       },
-      "return": -0.006557256304279125,
+      "return": -0.024945789970582367,
       "open_period": true,
-      "equity_after": 0.7534608295263308
+      "equity_after": 0.7395143389833093
     }
   ],
   "unpriced_periods": [],
-  "btc_buy_hold_same_window": 0.19968212607831615,
-  "vs_btc": -0.4462212965519854,
+  "btc_buy_hold_same_window": 0.17465413104778205,
+  "vs_btc": -0.43513979206447273,
   "ahead_of_btc": false
 }
