@@ -112,3 +112,13 @@ the first live allocation call will be appended here the moment the system leave
 - **Why:** At the 2026-11-05 close the system sold AVAX and LTC; BTC and BNB stayed. These are the weights the system's alert gave on 2026-11-06 (53.7%, 46.3%), in whole percents that sum to 100. Logged automatically by the call logger.
 - **Result since prior entry:** -2.9%  *(computed from daily opens 2026-11-04 → 2026-11-06, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
 - **Tracked config:** Vero Compass v1.7: a fixed pool of major coins plus gold. It holds the strongest coins, holds gold whenever gold's own trend is up, sizes every holding by its volatility, and moves crypto to cash (gold may stay held) when Bitcoin's long-term trend breaks. Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) - see engine_changes. From 2026-11-05 this description carries no settings; earlier entries keep the wording they were logged with.
+
+---
+
+### Entry #11 — RISK-OFF
+- **Logged:** 2026-11-12
+- **State:** RISK-OFF — **100% CASH**
+- **Allocation:** `100% cash`
+- **Why:** At the 2026-11-08 close the system sold BTC and BNB and moved the whole book to cash. The system's alert gave this call on 2026-11-09. It is logged three days late: our call logger stops for a person to check any move into cash, and that check did not happen until today. The result for the previous holdings runs to today rather than to 2026-11-09, so the record carries the cost of our delay (about one percentage point).
+- **Result since prior entry:** -2.4%  *(computed from daily opens 2026-11-06 → 2026-11-12, net of fees and spread — recompute it yourself with `scripts/verify.py`)*
+- **Tracked config:** Vero Compass v1.7: a fixed pool of major coins plus gold. It holds the strongest coins, holds gold whenever gold's own trend is up, sizes every holding by its volatility, and moves crypto to cash (gold may stay held) when Bitcoin's long-term trend breaks. Tracked as v1.7 from 2026-10-02 (the gold-hedge design since 2026-08-28); entries #1 and #2 were produced by v1.3/v1.4, #3 to #5 by v1.6/v1.6.2 (#5 is identical under v1.7) - see engine_changes. From 2026-11-05 this description carries no settings; earlier entries keep the wording they were logged with.

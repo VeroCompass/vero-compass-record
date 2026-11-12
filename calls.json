@@ -599,6 +599,46 @@
           }
         ]
       }
+    },
+    {
+      "n": 11,
+      "state": "risk-off",
+      "allocation": {
+        "CASH": 100
+      },
+      "logged": "2026-11-12",
+      "reason": "At the 2026-11-08 close the system sold BTC and BNB and moved the whole book to cash. The system's alert gave this call on 2026-11-09. It is logged three days late: our call logger stops for a person to check any move into cash, and that check did not happen until today. The result for the previous holdings runs to today rather than to 2026-11-09, so the record carries the cost of our delay (about one percentage point).",
+      "result_since_prior": "-2.4%",
+      "result_basis": "computed",
+      "result_period": {
+        "from": "2026-11-06",
+        "to": "2026-11-12",
+        "allocation_held": {
+          "BTC": 54,
+          "BNB": 46
+        },
+        "method": "daily opens, net of 0.1%/side fee + per-coin spread",
+        "detail": [
+          {
+            "symbol": "BTC",
+            "weight": 54.0,
+            "start_date": "2026-11-06",
+            "end_date": "2026-11-12",
+            "start_price": 76088.01,
+            "end_price": 74015.2,
+            "change": -0.027242
+          },
+          {
+            "symbol": "BNB",
+            "weight": 46.0,
+            "start_date": "2026-11-06",
+            "end_date": "2026-11-12",
+            "start_price": 689.73,
+            "end_price": 679.76,
+            "change": -0.014455
+          }
+        ]
+      }
     }
   ],
   "engine_changes": [
