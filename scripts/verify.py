@@ -36,6 +36,64 @@ def _days(a, b):
     return (datetime.datetime.strptime(b, f) - datetime.datetime.strptime(a, f)).days
 
 
+def report_entry_problem(r, seen):
+    """
+    What is wrong with one "reports" entry, or '' if nothing is. The record page shows the entry and links only
+    reports/<month>.md, so the entry is held to that: one entry per month, and a publication date that is a real
+    date after the month ended and not one still to come.
+    """
+    month = str(r.get('month') or '')
+    if not (len(month) == 7 and month[4] == '-' and month[:4].isdigit() and month[5:].isdigit()
+            and 1 <= int(month[5:]) <= 12):
+        return 'month is not YYYY-MM'
+    if month in seen:
+        return 'a second entry for the same month (a report is never re-published; a mistake goes to corrections)'
+    seen.add(month)
+    if r.get('file') != 'reports/%s.md' % month:
+        return 'file is not reports/%s.md' % month
+    try:
+        pub = datetime.datetime.strptime(str(r.get('published') or ''), '%Y-%m-%d').date()
+    except ValueError:
+        return 'published is not a YYYY-MM-DD date'
+    y, m = int(month[:4]), int(month[5:])
+    if pub < datetime.date(y + m // 12, m % 12 + 1, 1):
+        return 'published %s, before the month ended' % pub
+    if str(pub) > prices.today_utc():
+        return 'published %s, a date still to come' % pub
+    return ''
+
+
+def check_reports(data):
+    """
+    Every published monthly report, recomputed. calls.json lists them under "reports" ({month, file, published}),
+    appended when a report is published and never edited. Each file carries its figures in a closing comment, and
+    scripts/monthly_report.py recomputes them from public prices on the same curve this record's summary is built
+    from. Returns how many reports fail, either way.
+    """
+    reports = data.get('reports') or []
+    if not reports:
+        return 0
+    import monthly_report
+    print('-' * 72)
+    print('  MONTHLY REPORTS: %d published.' % len(reports))
+    bad = 0
+    seen = set()
+    for r in reports:
+        why = report_entry_problem(r, seen)
+        if why:
+            print('  !! report entry %s: %s' % (r.get('month'), why))
+            bad += 1
+            continue
+        try:
+            with open(os.path.join(ROOT, r.get('file') or ''), encoding='utf-8') as f:
+                ok, lines = monthly_report.check_text(f.read(), data)
+        except Exception as e:
+            ok, lines = False, ['  !! report %s could not be checked (%s)' % (r.get('month'), e)]
+        print('\n'.join(lines))
+        bad += 0 if ok else 1
+    return bad
+
+
 def check_summary(data, calls, equity, complete):
     """
     Check summary.json — the headline table the site renders, and the numbers most people actually read.
@@ -217,6 +275,7 @@ def main():
             pass
 
     rc_summary = check_summary(data, calls, equity, failed == 0)
+    reports_bad = check_reports(data)
 
     print('\n' + '=' * 72)
     if failed:
@@ -225,6 +284,10 @@ def main():
         return 2
     if bad:
         print('  %d CLAIM(S) DID NOT REPRODUCE. Treat this record with suspicion until explained.' % bad)
+        return 1
+    if reports_bad:
+        print('  %d MONTHLY REPORT(S) FAILED: a figure did not reproduce from public prices, or the entry is malformed.'
+              % reports_bad)
         return 1
     if rc_summary:
         print('  The LOG reproduces in full — every logged call checks out against public prices.')

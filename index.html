@@ -162,6 +162,16 @@
     see the <a href="LOG.md">log</a> and this repository's commit history.</p>
   </section>
 
+  <!-- Monthly reports: one per month, published after the month ends and never edited. Hidden until calls.json lists
+       one, like notices. Every figure in a report is recomputed from public prices by scripts/verify.py. -->
+  <section id="reports-section" style="display:none">
+    <h2>Monthly reports</h2>
+    <p>A plain report on each month of the record, published after the month ends. Every figure in a report is
+    recomputed from public prices by <code>scripts/verify.py</code>, and a report is never edited: if one turns out
+    to be wrong, the fix goes under Corrections.</p>
+    <div class="card"><ul id="reports" style="margin:0"></ul></div>
+  </section>
+
   <!-- The change history. Same problem as corrections: engine_changes has been recorded since
        2026-08-28 and rendered nowhere, so a reader had no way to know the record spans more than one
        version of the system. What each entry says is the MECHANISM in plain English - never the
@@ -299,6 +309,33 @@ fetch("calls.json").then(function(r){return r.json();}).then(function(d){
     tb.appendChild(tr);
   });
   if (typeof fillMadeBy === "function") fillMadeBy();
+
+  // Monthly reports, newest month first. Text only, like notices. A file is linked only when it is exactly
+  // reports/<month>.md, the one shape verify.py accepts, so a bad entry shows up here unlinked instead of pointing
+  // anywhere else.
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var reps = (d.reports||[]).slice().sort(function(a, b){
+    var ka = String(a.month||"") + " " + String(a.published||""), kb = String(b.month||"") + " " + String(b.published||"");
+    return ka < kb ? 1 : ka > kb ? -1 : 0;
+  });
+  if (reps.length) {
+    var rbox = document.getElementById("reports");
+    reps.forEach(function(r){
+      var month = String(r.month||"");
+      var m = /^(\d{4})-(0[1-9]|1[0-2])$/.exec(month);
+      var li = document.createElement("li");
+      var name = document.createElement(m && r.file === "reports/" + month + ".md" ? "a" : "strong");
+      if (name.tagName === "A") name.href = r.file;
+      name.textContent = m ? MONTHS[+m[2] - 1] + " " + m[1] : month;
+      li.appendChild(name);
+      var when = document.createElement("span");
+      when.className = "meta";
+      when.textContent = r.published ? " \u00b7 published " + r.published : "";
+      li.appendChild(when);
+      rbox.appendChild(li);
+    });
+    document.getElementById("reports-section").style.display = "";
+  }
 
   // The change history, newest first. Rendered generically, same as corrections below: an entry that
   // carries a field this page never anticipated is still shown, rather than silently dropped.

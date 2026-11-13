@@ -741,5 +741,12 @@
       "how_we_are_handling_it": "The sentence now says the pool is disclosed and fixed.",
       "why_we_are_telling_you": "No figure changes, but a page that asks to be checked has to describe the product exactly."
     }
+  ],
+  "reports": [
+    {
+      "month": "2026-10",
+      "file": "reports/2026-10.md",
+      "published": "2026-11-13"
+    }
   ]
 }

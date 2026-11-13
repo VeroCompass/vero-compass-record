@@ -17,6 +17,60 @@ import prices, perf
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def equity_curve(data, as_of):
+    """The record's equity, period by period and day by day, measured exactly as the summary measures it.
+
+    build() and monthly_report.py both read it, so a monthly report and the headline table cannot disagree.
+
+    Returns a dict: legs, curve [(date, equity)], unpriced, daily_ok, resolved, pending, equity (the last value),
+    and paths [(start, end, allocation, opening, scale)], the inputs of each period's daily curve."""
+    resolved, pending = list(data.get('calls') or []), []
+    inception = data.get('log_inception')
+    equity, legs, unpriced, paths = 1.0, [], [], []
+    curve = [(inception, 1.0)] if inception else []
+    daily_ok = True
+    for i, prev in enumerate(resolved):
+        start = prev.get('effective_since') or prev.get('logged')
+        if inception and start < inception:
+            start = inception
+        end = (resolved[i + 1].get('effective_since') or resolved[i + 1].get('logged')) if i + 1 < len(resolved) else as_of
+        if end < start:
+            continue
+        try:
+            is_open = (i + 1 >= len(resolved))
+            # A CLOSED period is priced at the sessions its closing entry published, so the table chains
+            # the same numbers the log claims (see perf.pinned_getter). The OPEN period has no closing
+            # entry yet and stays a live figure, marked to the last settled bar.
+            detail = None if is_open else ((resolved[i + 1].get('result_period') or {}).get('detail'))
+            g0 = perf.pinned_getter(detail, 'start_date', prices.price_exact, prices.price_on_or_after)
+            g1 = (prices.price_on_or_before if is_open
+                  else perf.pinned_getter(detail, 'end_date', prices.price_exact, prices.price_on_or_after))
+            r, _ = perf.period_return(prev.get('allocation', {}), start, end, g0, g1)
+        except Exception as e:
+            unpriced.append({'from': start, 'to': end, 'why': str(e)})
+            daily_ok = False       # a hole in the curve means the drawdown below is not the whole story
+            continue
+        opening = equity
+        equity *= (1.0 + r)
+        legs.append({'from': start, 'to': end, 'held': prev.get('allocation', {}), 'return': r,
+                     'open_period': is_open, 'equity_after': equity})
+        # Fill in what happened BETWEEN the two calls. Without this, a dip that recovered before the next
+        # call never appears in the drawdown at all — and drawdown is the number this product is sold on.
+        try:
+            path = perf.daily_path(prev.get('allocation', {}), start, end,
+                                   prices.price_on_or_after, prices.daily_opens)
+            scale = (1.0 + r) / path[-1][1] if path[-1][1] else 1.0    # end the leg exactly on the claim
+            curve += [(d, opening * v * scale) for d, v in path]
+            paths.append((start, end, prev.get('allocation', {}), opening, scale))
+        except Exception as e:
+            daily_ok = False
+            unpriced.append({'from': start, 'to': end, 'why': 'daily path unavailable: %s' % e,
+                             'period_return_still_counted': True})
+            curve.append((end, equity))
+    return {'legs': legs, 'curve': curve, 'unpriced': unpriced, 'daily_ok': daily_ok, 'resolved': resolved,
+            'pending': pending, 'equity': equity, 'paths': paths}
+
+
 def build():
     with open(os.path.join(ROOT, 'calls.json'), encoding='utf-8-sig') as f:
         data = json.load(f)
